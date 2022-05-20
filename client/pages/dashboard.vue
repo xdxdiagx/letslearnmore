@@ -12,5 +12,9 @@
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
 @Component
-export default class Dashboard extends Vue {}
+export default class Dashboard extends Vue {
+  async created() {
+    console.log(this.$fire.auth.currentUser);
+  }
+}
 </script>

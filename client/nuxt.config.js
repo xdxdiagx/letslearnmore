@@ -2,6 +2,7 @@ import colors from "vuetify/es5/util/colors";
 import { resolve } from "path";
 
 const isAppInDevelopment = /^dev(elopment)$/.test(process.env.NODE_ENV);
+const useEmulators = false;
 
 const nuxtConfig = {
   baseUrl: process.env.APP_HOST,
@@ -19,14 +20,14 @@ const nuxtConfig = {
       { hid: "description", name: "description", content: "" },
       { name: "format-detection", content: "telephone=no" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [{ rel: "icon", type: "image/x-icon", href: "/icon.png" }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: "~/plugins/auth", mode: "client" }],
 
   components: {
     dirs: ["~/components", "~/components/App", "~/components/Dashboard"],
@@ -34,6 +35,7 @@ const nuxtConfig = {
 
   alias: {
     Component: resolve(__dirname, "./components"),
+    Assets: resolve(__dirname, "./assets"),
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
@@ -80,7 +82,7 @@ const nuxtConfig = {
           success: colors.green.accent3,
         },
         light: {
-          primary: colors.indigo.lighten1,
+          primary: colors.blue.lighten2,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -106,11 +108,15 @@ const nuxtConfig = {
       measurementId: "G-ELH7W9C69K",
     },
     services: {
-      // auth: true,
+      auth: {
+        persistence: "local", // default
+      },
       // firestore: true,
       // functions: true,
-      // storage: true,
-      database: true,
+      storage: true,
+      database: {
+        emulatorPort: isAppInDevelopment && useEmulators ? 9000 : undefined,
+      },
       // messaging: true,
       // performance: true,
       // analytics: true,

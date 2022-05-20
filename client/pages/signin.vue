@@ -2,12 +2,22 @@
   <v-container fluid class="fill-height pa-0">
     <v-row no-gutters class="fill-height" justify="center" align="center">
       <v-col cols="12" sm="6" md="4">
-        <v-card min-height="450px" max-width="335px" rounded="lg">
+        <v-card
+          min-height="450px"
+          max-width="335px"
+          rounded="lg"
+          class="mx-auto"
+        >
           <v-card-title class="py-6 px-5">
             <h2>Sign In</h2>
           </v-card-title>
           <v-card-text class="px-5">
-            <v-form ref="loginForm" v-model="valid" lazy-validation>
+            <v-form
+              ref="loginForm"
+              v-model="valid"
+              lazy-validation
+              @submit.prevent="signIn"
+            >
               <v-text-field
                 v-model="email"
                 :rules="emailRules"
@@ -21,6 +31,7 @@
                 v-model="password"
                 :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="showPass ? 'text' : 'password'"
+                :rules="passwordRules"
                 label="Password"
                 outlined
                 required
@@ -28,10 +39,24 @@
                 @click:append="showPass = !showPass"
               >
               </v-text-field>
-              <v-btn elevation="2" color="primary" block x-large to="dashboard"
+              <v-btn
+                elevation="2"
+                color="primary"
+                block
+                x-large
+                type="submit"
+                class="mt-1"
                 >Sign In</v-btn
               >
             </v-form>
+            <v-row justify="center" class="my-4">
+              <span>OR</span>
+            </v-row>
+            <v-row justify="center" class="my-4 px-3">
+              <v-btn to="request" block x-large depressed
+                >Request an Account</v-btn
+              >
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
@@ -51,8 +76,48 @@ export default class SignInPage extends Vue {
   password: string = "";
   valid: boolean = true;
   emailRules = [
-    (v: string) => !!v || "E-mail is required",
+    (v: string) => !!v || "Email is required",
     (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
   ];
+  passwordRules = [(v: string) => !!v || "Password is required"];
+
+  private async created() {
+    // this.createUser();
+    console.log(this.$fire.auth.currentUser);
+  }
+
+  private async createUser() {
+    const user = {
+      firstName: "John Philip",
+      lastName: "Nuñez",
+      role: 1,
+      email: "nunezjohnphilip11@gmail.com",
+      birthdate: "June 11, 1996",
+      gender: "Male",
+      section: 1,
+    };
+    try {
+      await this.$auth.createUser(
+        "nunezjohnphilip11@gmail.com",
+        "test11",
+        user
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  private async signIn() {
+    try {
+      const user = await this.$auth.signInUser(this.email, this.password);
+      if (user) {
+        this.$router.push("/dashboard");
+      } else {
+        this.$router.push("/signin");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 </script>
