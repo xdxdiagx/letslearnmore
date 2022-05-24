@@ -111,16 +111,13 @@ const nuxtConfig = {
       auth: {
         persistence: "local", // default
       },
-      // firestore: true,
-      // functions: true,
-      storage: true,
+      storage: {
+        emulatorPort: isAppInDevelopment && useEmulators ? 9199 : undefined,
+        emulatorHost: "localhost",
+      },
       database: {
         emulatorPort: isAppInDevelopment && useEmulators ? 9000 : undefined,
       },
-      // messaging: true,
-      // performance: true,
-      // analytics: true,
-      // remoteConfig: true
     },
   },
 
