@@ -86,16 +86,7 @@ export default class Default extends Vue {
   }
 
   private async getUser() {
-    const uid = this.$auth.currentUserId;
-    await this.$fire.database
-      .ref(`users/${uid}`)
-      .get()
-      .then((ss: any) => {
-        console.log(ss.val());
-        this.user = ss.val();
-      })
-      .catch((err: any) => console.error(err));
-    console.log(this.user);
+    this.user = await this.$user.getCurrentUser();
   }
 
   private async signOut() {
