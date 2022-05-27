@@ -27,7 +27,10 @@ const nuxtConfig = {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: "~/plugins/auth", mode: "client" }],
+  plugins: [
+    { src: "~/plugins/auth", mode: "client" },
+    { src: "~/plugins/user", mode: "client" },
+  ],
 
   components: {
     dirs: ["~/components", "~/components/App", "~/components/Dashboard"],
