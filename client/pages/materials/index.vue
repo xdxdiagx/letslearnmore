@@ -64,6 +64,7 @@ export default class Materials extends Vue {
           itemRef
             .getDownloadURL()
             .then((url) => {
+              console.log(url);
               this.materials.push({
                 id: itemRef.name,
                 to: `/materials/${itemRef.name.replace(".png", "")}`,

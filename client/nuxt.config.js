@@ -82,7 +82,7 @@ const nuxtConfig = {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
+          success: colors.green,
         },
         light: {
           primary: colors.blue.lighten2,
@@ -91,7 +91,7 @@ const nuxtConfig = {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
+          success: colors.green,
         },
       },
     },
