@@ -1,5 +1,16 @@
 <template>
   <v-sheet width="100%" height="100%" class="pt-10" color="blue lighten-3">
+    <v-card
+      class="mr-4"
+      rounded="xl"
+      style="position: absolute; top: 50px; left: 90px"
+    >
+      <v-card-text>
+        <p class="text-subtitle-2 text-sm-h6 black--text text-justify mb-0">
+          {{ description }}
+        </p>
+      </v-card-text>
+    </v-card>
     <img
       src="~assets/img/girl_talking.gif"
       v-bind:class="[
@@ -11,26 +22,14 @@
       src="~assets/img/classroom_floor.png"
       width="100%"
       style="position: absolute; bottom: 0; left: 0; right: 0"
-      alt="Classrom Floor"
+      alt="Teacher Image"
     />
-    <audio v-if="voiceover != ''" ref="voice_over">
+    <audio v-if="voiceover != ''" autoplay>
       <source :src="voiceover" type="audio/ogg" />
       <source :src="voiceover" type="audio/mpeg" />
       <source :src="voiceover" type="audio/wav" />
       Your browser does not support the audio element.
     </audio>
-    <v-btn
-      v-if="showProceedBtn"
-      @click="proceed"
-      class="ma-2 px-2"
-      elevation="2"
-      bottom
-      right
-      fixed
-    >
-      <span class="error--text">Proceed</span
-      ><v-icon color="error">mdi-chevron-right</v-icon>
-    </v-btn>
   </v-sheet>
 </template>
 
@@ -38,19 +37,9 @@
 import { Component, Prop, Vue } from "nuxt-property-decorator";
 
 @Component
-export default class ClassroomFloorPage extends Vue {
+export default class DescriptionPage extends Vue {
   @Prop() readonly voiceover!: string;
-
-  private showProceedBtn = true;
-
-  private proceed() {
-    this.$emit("proceed");
-  }
-
-  private mounted() {
-    const voice_over: any = this.$refs?.voice_over;
-    voice_over.play();
-  }
+  @Prop() readonly description!: string;
 }
 </script>
 

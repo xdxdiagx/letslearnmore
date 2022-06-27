@@ -118,7 +118,7 @@ import QuestionPage from "Component/SM1/QuestionPage.vue";
     QuestionPage,
   },
 })
-export default class ModulePage extends Vue {
+export default class SM1 extends Vue {
   private introIndex = 0;
   private mainIndex = 0;
   private voiceovers: NotWellDefinedObject[] = [];
@@ -478,18 +478,19 @@ export default class ModulePage extends Vue {
       this.voiceovers
         .sort((a, b) => a.id - b.id)
         .forEach((item: NotWellDefinedObject, index: number) => {
-          let window = windows[item.id - 1];
+          let window: NotWellDefinedObject = windows[item.id - 1];
           window.props.voiceover = item.src;
           if (window.hasOwnProperty("events")) {
             let events: any = window.events;
             for (let i in events) {
               if (events.hasOwnProperty(i)) {
                 let functionName: any = events[i] as any;
+                const self: NotWellDefinedObject = this;
                 if (
                   this.hasOwnProperty(functionName) &&
-                  typeof this[functionName] === "function"
+                  typeof self[functionName] === "function"
                 ) {
-                  window.events[i] = this[functionName];
+                  window.events[i] = self[functionName];
                 }
               }
             }
@@ -507,7 +508,7 @@ export default class ModulePage extends Vue {
       this.mainVO
         .sort((a, b) => a.id - b.id)
         .forEach((item: NotWellDefinedObject, index: number) => {
-          let window = windows[item.id - 1];
+          let window: NotWellDefinedObject = windows[item.id - 1];
           window.props.voiceover = item.src;
 
           if (window.hasOwnProperty("events")) {
@@ -515,11 +516,12 @@ export default class ModulePage extends Vue {
             for (let i in events) {
               if (events.hasOwnProperty(i)) {
                 let functionName: any = events[i];
+                const self: NotWellDefinedObject = this;
                 if (
                   this.hasOwnProperty(functionName) &&
-                  typeof this[functionName] === "function"
+                  typeof self[functionName] === "function"
                 ) {
-                  window.events[i] = this[functionName];
+                  window.events[i] = self[functionName];
                 }
               }
             }
