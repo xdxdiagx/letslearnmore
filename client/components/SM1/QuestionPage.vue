@@ -2,11 +2,14 @@
   <v-sheet
     width="100%"
     height="100%"
-    class="d-flex flex-column justify-start align-start relative px-5 mx-auto pb-16"
+    class="d-flex flex-column justify-start align-start px-5 mx-auto pb-16 pt-14"
     color="blue lighten-3"
     max-width="720px"
+    style="position: relative"
   >
-    <h2 class="mt-14 text-left w-100">{{ partNo }}</h2>
+    <v-sheet dark width="auto" class="py-1 px-2" rounded color="orange">
+      <h3>{{ partNo }}</h3>
+    </v-sheet>
     <p class="w-100 text-justify">{{ instructions }}</p>
     <span class="font-weight-medium mb-2">Criteria:</span>
     <CriteriaTable :criteria="criteria" :small="small" />
@@ -24,11 +27,9 @@
     </audio>
     <v-btn
       v-if="showSubmitBtn"
-      class="ma-2"
+      class="mt-14 mr-5"
       elevation="2"
-      bottom
-      right
-      fixed
+      style="position: absolute; top: 0; right: 0"
       color="success"
     >
       <span>Submit</span>

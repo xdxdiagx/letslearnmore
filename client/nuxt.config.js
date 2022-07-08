@@ -30,15 +30,22 @@ const nuxtConfig = {
   plugins: [
     { src: "~/plugins/auth", mode: "client" },
     { src: "~/plugins/user", mode: "client" },
+    { src: "~/plugins/notifier", mode: "client" },
   ],
 
   components: {
-    dirs: ["~/components", "~/components/App", "~/components/Dashboard"],
+    dirs: [
+      "~/components",
+      "~/components/App",
+      "~/components/Dashboard",
+      "~/components/Global",
+    ],
   },
 
   alias: {
     Component: resolve(__dirname, "./components"),
     Assets: resolve(__dirname, "./assets"),
+    Data: resolve(__dirname, "./data"),
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

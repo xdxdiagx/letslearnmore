@@ -1,5 +1,6 @@
 <template>
   <v-app dark>
+    <NotificationToast />
     <v-row no-gutters>
       <v-navigation-drawer
         v-model="drawer"

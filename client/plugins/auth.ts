@@ -54,6 +54,11 @@ export class AuthPlugin implements AuthPluginImp {
       );
       return user;
     } catch (error) {
+      this.context.$notifier.notifierState = {
+        iconName: "mdi-info",
+        color: "error",
+        message: `Ooops! Try Again...`,
+      };
       console.error(error);
     }
   }

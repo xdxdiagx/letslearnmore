@@ -7,6 +7,8 @@
     rounded="xl"
     width="100%"
     height="100%"
+    min-width="160px"
+    min-height="160px"
     elevation="0"
     class="d-flex flex-column justify-center align-center mb-4 custom-border"
     :class="[dragover ? 'custom-border-hover' : '']"
@@ -14,7 +16,7 @@
     <v-icon x-large color="grey">mdi-cloud-upload-outline</v-icon>
     <span class="mb-1 text-subtitle-2 grey--text">Drop your file here</span>
     <span class="mb-2 text-caption grey--text">or</span>
-    <v-btn dark elevation="2" color="red accent-2" @click="uploadClick"
+    <v-btn small dark elevation="2" color="red accent-2" @click="uploadClick"
       >Select a file</v-btn
     >
     <v-file-input

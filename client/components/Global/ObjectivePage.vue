@@ -15,16 +15,18 @@
         <div class="d-flex justify-start mb-6 error--text">
           <h2>Objectives:</h2>
         </div>
-        <p
-          class="text-body-1 font-weight-medium black--text text-justify mb-4 mx-6"
-          v-for="(objective, i) in objectives"
-          :key="i"
-        >
-          <span class="mr-4">•</span>{{ objective }}
-        </p>
+        <ul>
+          <li v-for="(objective, i) in objectives" :key="i">
+            <p
+              class="text-body-1 font-weight-medium black--text text-left mb-4 ml-6"
+            >
+              {{ objective }}
+            </p>
+          </li>
+        </ul>
       </v-card-text>
     </v-card>
-    <audio v-if="voiceover != ''" autoplay>
+    <audio v-if="voiceover != ''" ref="voiceover_objective">
       <source :src="voiceover" type="audio/ogg" />
       <source :src="voiceover" type="audio/mpeg" />
       <source :src="voiceover" type="audio/wav" />
@@ -39,11 +41,11 @@ import { Component, Prop, Vue } from "nuxt-property-decorator";
 @Component
 export default class ObjectivePage extends Vue {
   @Prop() readonly voiceover!: string;
+  @Prop() readonly objectives!: string[];
 
-  private objectives: string[] = [
-    "To identify which parts of the respiratory system are commonly affected by COVID-19.",
-    "To analyze critically how covid-19 can affect the Respiratory System.",
-    "To develop an advocacy campaign poster to prevent the spread of COVID-19.",
-  ];
+  private mounted() {
+    const voiceover_objective: any = this.$refs?.voiceover_objective;
+    voiceover_objective.play();
+  }
 }
 </script>

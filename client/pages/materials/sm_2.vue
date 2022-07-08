@@ -39,7 +39,7 @@
       style="width: 100%; height: 100vh"
     >
       <v-window-item
-        v-for="(item, index) in mainWindows"
+        v-for="(item, index) in main_windows"
         :key="`item-${index}`"
         class="fill-height pa-0 ma-0"
       >
@@ -97,36 +97,36 @@
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
 import Classroom from "Component/Global/Classroom.vue";
-import DescriptionPage from "Component/Global/DescriptionPage.vue";
-import ObjectivePage from "Component/SM3/ObjectivePage.vue";
-import IntroPage from "Component/SM3/IntroPage.vue";
-import StoryPreview from "Component/SM3/StoryPreview.vue";
-import StoryIntroPage from "Component/SM3/StoryComponents/StoryIntro.vue";
-import DoctorIntroPage from "Component/SM3/StoryComponents/DoctorIntro.vue";
-import StoryMainPage from "Component/SM3/StoryComponents/MainPage.vue";
-import AssessmentPage from "Component/SM3/StoryComponents/Assessment.vue";
-import StoryEnding from "Component/SM3/StoryComponents/Ending.vue";
-import StoryReminder from "Component/SM3/StoryComponents/Reminder.vue";
+import TriviaPage from "Component/Global/Trivia.vue";
+import ObjectivePage from "Component/Global/ObjectivePage.vue";
+import DescriptionPage from "Component/SM2/DescriptionPage.vue";
+import IntroVideoPage from "Component/SM2/IntroVideo.vue";
+import RatePage from "Component/SM2/Main/RatePage.vue";
+import ReminderPage from "Component/SM2/Main/ReminderPage.vue";
+import ActivityPage1 from "Component/SM2/Main/ActivityPage1.vue";
+import ActivityPage2 from "Component/SM2/Main/ActivityPage2.vue";
+import FigureQuestion from "Component/SM2/Main/FigureQuestion.vue";
+import QuestionPage from "Component/SM1/QuestionPage.vue";
 
-import * as sm_3 from "@/data/sm_3";
+import * as sm_2 from "@/data/sm_2";
 
 @Component({
   layout: "material",
   components: {
     Classroom,
-    ObjectivePage,
+    TriviaPage,
     DescriptionPage,
-    IntroPage,
-    StoryPreview,
-    StoryIntroPage,
-    DoctorIntroPage,
-    StoryMainPage,
-    AssessmentPage,
-    StoryEnding,
-    StoryReminder,
+    IntroVideoPage,
+    ObjectivePage,
+    RatePage,
+    ReminderPage,
+    ActivityPage1,
+    ActivityPage2,
+    QuestionPage,
+    FigureQuestion,
   },
 })
-export default class SM3 extends Vue {
+export default class SM2 extends Vue {
   private introIndex = 0;
   private mainIndex = 0;
   private voiceovers: NotWellDefinedObject[] = [];
@@ -134,13 +134,13 @@ export default class SM3 extends Vue {
   private mainContents: NotWellDefinedObject[] = [];
   private showMain = false;
 
-  private windows = sm_3.windows;
-  private main_windows = sm_3.main_windows;
+  private windows = sm_2.windows;
+  private main_windows = sm_2.main_windows;
 
   private async getIntroVoiceOver() {
     const voiceOverRef = this.$fire.storage
       .ref()
-      .child("sm_3")
+      .child("sm_2")
       .child("voice_over")
       .child("intro");
     // Find all the prefixes and items.
@@ -153,61 +153,6 @@ export default class SM3 extends Vue {
             .then((url) => {
               this.voiceovers.push({
                 id: parseInt(itemRef.name.replace(".wav", "")),
-                src: url,
-              });
-            })
-            .catch((err) => console.error(err));
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  private async getMainVoiceOver() {
-    const voiceOverRef = this.$fire.storage
-      .ref()
-      .child("sm_3")
-      .child("voice_over")
-      .child("main");
-    // Find all the prefixes and items.
-    await voiceOverRef
-      .listAll()
-      .then((res) => {
-        res.items.forEach((itemRef, index) => {
-          itemRef
-            .getDownloadURL()
-            .then((url) => {
-              this.mainVO.push({
-                id: parseInt(itemRef.name.replace(".wav", "")),
-                src: url,
-              });
-            })
-            .catch((err) => console.error(err));
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  private async getMainContent() {
-    const contentRef = this.$fire.storage
-      .ref()
-      .child("sm_3")
-      .child("media")
-      .child("main");
-    // Find all the prefixes and items.
-    await contentRef
-      .listAll()
-      .then((res) => {
-        res.items.forEach((itemRef, index) => {
-          const itemName = itemRef.name;
-          itemRef
-            .getDownloadURL()
-            .then((url) => {
-              this.mainContents.push({
-                id: parseInt(itemRef.name.replace(/\.[^/.]+$/, "")),
                 src: url,
               });
             })
@@ -249,48 +194,6 @@ export default class SM3 extends Vue {
     }
   }
 
-  private get mainWindows() {
-    if (this.mainVO) {
-      let windows = this.main_windows;
-
-      this.mainVO
-        .sort((a, b) => a.id - b.id)
-        .forEach((item: NotWellDefinedObject, index: number) => {
-          let window: NotWellDefinedObject = windows[item.id - 1];
-          window.props.voiceover = item.src;
-
-          if (window.hasOwnProperty("events")) {
-            let events: any = window.events;
-            for (let i in events) {
-              if (events.hasOwnProperty(i)) {
-                let functionName: any = events[i];
-                const self: NotWellDefinedObject = this;
-                if (
-                  this.hasOwnProperty(functionName) &&
-                  typeof self[functionName] === "function"
-                ) {
-                  window.events[i] = self[functionName];
-                }
-              }
-            }
-          }
-        });
-    }
-
-    // if (this.mainContents) {
-    //   let windows = this.main_windows;
-
-    //   this.mainContents
-    //     .sort((a, b) => a.id - b.id)
-    //     .forEach((item: NotWellDefinedObject, index: number) => {
-    //       let window = windows[item.id - 1];
-    //       window.props.content = item.src;
-    //     });
-    // }
-
-    return this.main_windows;
-  }
-
   private nextIntro() {
     this.introIndex =
       this.introIndex + 1 === this.windows.length ? 0 : this.introIndex + 1;
@@ -318,8 +221,6 @@ export default class SM3 extends Vue {
 
   private async created() {
     await this.getIntroVoiceOver();
-    await this.getMainVoiceOver();
-    // await this.getMainContent();
   }
 }
 </script>

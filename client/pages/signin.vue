@@ -111,9 +111,19 @@ export default class SignInPage extends Vue {
     try {
       const user = await this.$auth.signInUser(this.email, this.password);
       if (user) {
+        this.$notifier.notifierState = {
+          iconName: "mdi-check",
+          color: "success",
+          message: `Login Success`,
+        };
         this.$router.push("/dashboard");
       } else {
         this.$router.push("/signin");
+        this.$notifier.notifierState = {
+          iconName: "mdi-info",
+          color: "error",
+          message: `Ooops! Try Again...`,
+        };
       }
     } catch (error) {
       console.error(error);

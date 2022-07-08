@@ -1,5 +1,11 @@
 <template>
-  <v-sheet width="100%" height="100%" class="pt-10" color="blue lighten-3">
+  <v-sheet width="100%" height="100%" class="pt-14 px-5" color="blue lighten-3">
+    <image-container
+      :src="imageUrl"
+      class="rounded-xl"
+      :width="'100%'"
+      :height="'40%'"
+    />
     <img
       src="~assets/img/girl_talking.gif"
       v-bind:class="[
@@ -20,7 +26,7 @@
       Your browser does not support the audio element.
     </audio>
     <v-btn
-      v-if="showProceedBtn"
+      v-if="withProceedBtn && showProceedBtn"
       @click="proceed"
       class="ma-2 px-2"
       elevation="2"
@@ -40,6 +46,8 @@ import { Component, Prop, Vue } from "nuxt-property-decorator";
 @Component
 export default class ClassroomFloorPage extends Vue {
   @Prop() readonly voiceover!: string;
+  @Prop() readonly imageUrl!: string;
+  @Prop() readonly withProceedBtn!: boolean;
 
   private showProceedBtn = true;
 
@@ -50,6 +58,9 @@ export default class ClassroomFloorPage extends Vue {
   private mounted() {
     const voice_over: any = this.$refs?.voice_over;
     voice_over.play();
+    voice_over.addEventListener("ended", () => {
+      this.showProceedBtn = true;
+    });
   }
 }
 </script>

@@ -1,7 +1,15 @@
 <template>
   <div style="width: 100%" class="mb-5 mx-auto">
-    <v-card v-if="small" class="rounded-xl">
-      <v-simple-table dense>
+    <v-card v-if="small" rounded="lg">
+      <v-btn
+        @click="showSmallTable = !showSmallTable"
+        small
+        class="text-capitalize"
+        style="position: absolute; top: -35px; right: 0"
+      >
+        {{ showSmallTable ? "Hide" : "See" }} Table
+      </v-btn>
+      <v-simple-table v-if="showSmallTable" dense class="rounded-lg">
         <template v-slot:default>
           <thead>
             <tr>
@@ -93,5 +101,6 @@ export default class CriteriaTable extends Vue {
   @Prop() readonly small!: boolean;
 
   private showTable: boolean = false;
+  private showSmallTable: boolean = true;
 }
 </script>

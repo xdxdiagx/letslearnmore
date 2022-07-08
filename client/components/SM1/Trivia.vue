@@ -31,7 +31,13 @@
     <img
       src="~assets/img/classroom_floor.png"
       width="100%"
-      style="position: absolute; bottom: 0; left: 0; right: 0"
+      style="
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-height: 250px;
+      "
       alt="Teacher Image"
     />
     <audio autoplay id="sound_effect_trivia">
@@ -92,7 +98,7 @@ export default class TriviaPage extends Vue {
 .teacher-lg {
   height: 60%;
   position: absolute;
-  bottom: 35px;
+  bottom: 105px;
   left: 15px;
   z-index: 1000;
 }
