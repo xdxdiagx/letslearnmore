@@ -88,20 +88,15 @@ export default class SignInPage extends Vue {
 
   private async createUser() {
     const user = {
-      firstName: "John Philip",
-      lastName: "Nuñez",
+      firstName: "Test",
+      lastName: "User",
       role: 1,
-      email: "nunezjohnphilip11@gmail.com",
-      birthdate: "June 11, 1996",
+      email: "test@test.com",
+      birthdate: "January 01, 2022",
       gender: "Male",
-      section: 1,
     };
     try {
-      await this.$auth.createUser(
-        "nunezjohnphilip11@gmail.com",
-        "test11",
-        user
-      );
+      await this.$auth.createUser("test@test.com", "test11", user);
     } catch (e) {
       console.error(e);
     }
@@ -116,7 +111,7 @@ export default class SignInPage extends Vue {
           color: "success",
           message: `Login Success`,
         };
-        this.$router.push("/dashboard");
+        this.$router.push("/materials");
       } else {
         this.$router.push("/signin");
         this.$notifier.notifierState = {

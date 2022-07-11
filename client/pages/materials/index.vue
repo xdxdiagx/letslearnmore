@@ -8,7 +8,7 @@
     <v-divider></v-divider>
     <div class="overflow-auto mt-2">
       <v-row no-gutters>
-        <template v-for="(material, i) in sortedMaterials">
+        <template v-for="(material, i) in materials">
           <v-col class="pa-2" :key="i" cols="6" lg="2" sm="3">
             <v-hover v-slot="{ hover }">
               <v-card
@@ -34,48 +34,19 @@ import { Component, Vue } from "nuxt-property-decorator";
 export default class Materials extends Vue {
   materials: NotWellDefinedObject[] = [];
 
-  get sortedMaterials() {
-    if (this.materials) {
-      return this.materials.sort(
-        (a: NotWellDefinedObject, b: NotWellDefinedObject) => {
-          let fa = a.id.toLowerCase(),
-            fb = b.id.toLowerCase();
-
-          if (fa < fb) {
-            return -1;
-          }
-          if (fa > fb) {
-            return 1;
-          }
-          return 0;
-        }
-      );
-    }
-  }
-
   private async getAllTopics() {
-    const topicRef = this.$fire.storage.ref().child("topic_images");
-
-    // Find all the prefixes and items.
-    topicRef
-      .listAll()
-      .then((res) => {
-        res.items.forEach((itemRef, index) => {
-          itemRef
-            .getDownloadURL()
-            .then((url) => {
-              this.materials.push({
-                id: itemRef.name,
-                to: `/materials/${itemRef.name.replace(".png", "")}`,
-                src: url,
-              });
-            })
-            .catch((err) => console.error(err));
+    this.$fire.database.ref("materials").once("value", (ss) => {
+      const mats: NotWellDefinedObject[] = ss.val();
+      this.materials = mats
+        .filter((m) => m.show == true)
+        .map((m: NotWellDefinedObject) => {
+          return {
+            id: m.mid,
+            src: m.topic_bg,
+            to: `/materials/${m.mid}`,
+          };
         });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    });
   }
 
   private async created() {

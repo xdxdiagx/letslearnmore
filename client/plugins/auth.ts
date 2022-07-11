@@ -36,7 +36,6 @@ export class AuthPlugin implements AuthPluginImp {
                 console.log(error);
               } else {
                 console.log("Successfully created user-" + user.uid);
-                this.$authFire.signOut();
               }
             });
         }

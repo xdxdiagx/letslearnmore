@@ -2,7 +2,8 @@
   <v-sheet
     width="100%"
     height="100%"
-    class="px-2 pt-14 pb-16"
+    class="px-2 pt-14 pb-16 overflow-y-auto"
+    style="position: relative"
     color="blue lighten-3"
   >
     <v-row no-gutters v-for="(row, idr) in rows" :key="idr">
@@ -11,6 +12,7 @@
         v-for="(col, idc) in row.columns"
         :key="idc"
         :cols="col.cols"
+        :sm="col.sm"
         :align-self="col.alignment"
       >
         <component

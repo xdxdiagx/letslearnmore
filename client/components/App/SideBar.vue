@@ -29,8 +29,7 @@ import { Component, Vue } from "nuxt-property-decorator";
 
 @Component({})
 export default class SideBar extends Vue {
-  private links = [
-    { title: "Dashboard", icon: "mdi-view-dashboard", to: "/dashboard" },
+  private links: NotWellDefinedObject[] = [
     {
       title: "Supplementary Materials",
       icon: "mdi-clipboard-text",
@@ -47,6 +46,23 @@ export default class SideBar extends Vue {
       to: "/results",
     },
   ];
+
+  private setLinks(role: number) {
+    if (role == 1) {
+      this.links.push({
+        title: "Settings",
+        icon: "mdi-cog",
+        to: "/settings",
+      });
+    }
+  }
+
+  async created() {
+    if (this.$fire.auth.currentUser) {
+      const user = await this.$user.getCurrentUser();
+      this.setLinks(user.role);
+    }
+  }
 }
 </script>
 

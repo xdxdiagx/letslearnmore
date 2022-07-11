@@ -22,13 +22,25 @@
       style="width: 90%"
     >
       <div class="d-flex justify-center">
-        <v-sheet
-          height="124px"
-          width="124px"
-          class="d-flex justify-center align-center mt-n16 rounded-circle"
-        >
-          <img src="~assets/img/user1.png" height="120" width="120" />
-        </v-sheet>
+        <v-hover>
+          <template v-slot:default="{ hover }">
+            <v-sheet
+              height="124px"
+              width="124px"
+              class="d-flex justify-center align-center mt-n16 rounded-circle"
+              style="position: relative"
+            >
+              <img src="~assets/img/user1.png" height="120" width="120" />
+              <v-fade-transition>
+                <v-overlay v-if="hover" absolute color="#036358">
+                  <v-btn icon x-large>
+                    <v-icon dark large> mdi-cloud-upload </v-icon></v-btn
+                  >
+                </v-overlay>
+              </v-fade-transition>
+            </v-sheet>
+          </template>
+        </v-hover>
       </div>
       <div class="d-block text-center">
         <span class="text-subtitle-1 font-weight-medium">
