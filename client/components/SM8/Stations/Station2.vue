@@ -57,12 +57,12 @@
             <v-row no-gutters class="fill-height">
               <v-sheet
                 width="100%"
-                height="150px"
+                height="200px"
                 :style="sheetStyle"
+                @click="inputAns"
                 rounded="lg"
                 class="pa-4"
-                @click="inputAns(index)"
-                >{{ task.answer }}</v-sheet
+                >{{ answer.input }}</v-sheet
               >
             </v-row>
           </v-sheet>
