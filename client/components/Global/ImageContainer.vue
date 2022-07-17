@@ -8,6 +8,9 @@
         ></v-progress-circular>
       </v-row>
     </template>
+    <v-row no-gutters justify="center" align="center" class="fill-height">
+      <h1 class="yellow error--text px-2">{{ topicTitle }}</h1>
+    </v-row>
   </v-img>
 </template>
 
@@ -20,5 +23,6 @@ export default class ImageContainer extends Vue {
   @Prop() readonly imageStyle!: string;
   @Prop() readonly width!: string | number;
   @Prop() readonly height!: string | number;
+  @Prop() readonly topicTitle!: string;
 }
 </script>

@@ -67,7 +67,7 @@
               </v-list-item-content>
 
               <v-list-item-action>
-                <v-btn icon>
+                <v-btn icon :to="`/profile/${student.key}`">
                   <v-icon color="grey lighten-1">mdi-information</v-icon>
                 </v-btn>
               </v-list-item-action>
@@ -186,7 +186,9 @@
 
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
-@Component
+@Component({
+  layout: "default",
+})
 export default class Settings extends Vue {
   materials: NotWellDefinedObject[] = [];
   private showModal = false;

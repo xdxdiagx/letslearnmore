@@ -34,6 +34,19 @@ export class UserPlugin {
 
     return this.user;
   }
+
+  async getUserById(userId: string) {
+    await this.$databaseFire
+      .ref(`users/${userId}`)
+      .get()
+      .then((ss: any) => {
+        this.user = ss.val();
+        this.user.uid = userId;
+      })
+      .catch((err: any) => console.error(err));
+
+    return this.user;
+  }
 }
 
 const userPlugin: Plugin = function (context, inject) {

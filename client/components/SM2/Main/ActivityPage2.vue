@@ -62,12 +62,6 @@
       <source :src="voiceover1" type="audio/wav" />
       Your browser does not support the audio element.
     </audio>
-    <audio ref="voiceover_2">
-      <source :src="voiceover2" type="audio/ogg" />
-      <source :src="voiceover2" type="audio/mpeg" />
-      <source :src="voiceover2" type="audio/wav" />
-      Your browser does not support the audio element.
-    </audio>
   </v-sheet>
 </template>
 
@@ -79,10 +73,7 @@ export default class ActivityPage2 extends Vue {
   @Prop() readonly objectives!: string[];
 
   private voiceover1 =
-    "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_2%2Fvoice_over%2Fmain%2FDirections-2021-08-19%2005_18_40.wav?alt=media&token=2a3d52c7-cb26-4978-93de-488f540df9dd";
-  private voiceover2 =
-    "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_2%2Fvoice_over%2Fmain%2FAt%20the%20wrist%2014-2021-08-19%2005_23_57.wav?alt=media&token=7aaff6fa-3e0f-4754-aa11-73019fd0367d";
-
+    "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_2%2Fvoice_over%2Fmain%2FActivities-2021-08-19%2005_29_26.wav?alt=media&token=5446f32b-f010-47fa-9753-b4b22fb3504d";
   private contents: NotWellDefinedObject[] = [
     {
       text: `According to the Harvard Medical School Special Report Diseases of the Heart, it’s easy to check your pulse using just your fingers, either at the wrist or the side of the neck.`,
@@ -155,11 +146,7 @@ export default class ActivityPage2 extends Vue {
 
   private mounted() {
     const voiceover_1: any = this.$refs?.voiceover_1;
-    const voiceover_2: any = this.$refs?.voiceover_2;
     voiceover_1.play();
-    voiceover_1.addEventListener("ended", () => {
-      voiceover_2.play();
-    });
   }
 }
 </script>

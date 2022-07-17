@@ -85,9 +85,10 @@ export const main_windows: NotWellDefinedObject[] = [
     id: 4,
   },
   {
-    name: "Classroom",
+    name: "Documentaries",
     props: {
-      voiceover: "",
+      voiceover:
+        "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_6%2Fvoice_over%2Fmain%2FKindly%20click%20the.wav?alt=media&token=0621b228-bac6-4d9a-b1ac-0c760e3137c7",
     },
     events: {},
     id: 5,

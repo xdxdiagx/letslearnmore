@@ -18,6 +18,18 @@
       <source :src="voiceover" type="audio/wav" />
       Your browser does not support the audio element.
     </audio>
+    <v-btn
+      v-if="withProceedBtn"
+      @click="proceed"
+      class="ma-2 px-2"
+      elevation="2"
+      bottom
+      right
+      fixed
+    >
+      <span class="error--text">Proceed</span
+      ><v-icon color="error">mdi-chevron-right</v-icon>
+    </v-btn>
   </v-sheet>
 </template>
 
@@ -27,5 +39,10 @@ import { Component, Prop, Vue } from "nuxt-property-decorator";
 @Component
 export default class ClassroomPage extends Vue {
   @Prop() readonly voiceover!: string;
+  @Prop() readonly withProceedBtn!: boolean;
+
+  private proceed() {
+    this.$emit("proceed");
+  }
 }
 </script>

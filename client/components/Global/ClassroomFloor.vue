@@ -1,10 +1,13 @@
 <template>
   <v-sheet width="100%" height="100%" class="pt-14 px-5" color="blue lighten-3">
     <image-container
+      v-if="imageUrl"
       :src="imageUrl"
-      class="rounded-xl"
+      :topicTitle="topicTitle"
+      class="rounded-xl mx-auto"
       :width="'100%'"
       :height="'40%'"
+      :imageStyle="imageStyle"
     />
     <img
       src="~assets/img/girl_talking.gif"
@@ -47,6 +50,8 @@ import { Component, Prop, Vue } from "nuxt-property-decorator";
 export default class ClassroomFloorPage extends Vue {
   @Prop() readonly voiceover!: string;
   @Prop() readonly imageUrl!: string;
+  @Prop() readonly imageStyle!: NotWellDefinedObject;
+  @Prop() readonly topicTitle!: string;
   @Prop() readonly withProceedBtn!: boolean;
 
   private showProceedBtn = true;
