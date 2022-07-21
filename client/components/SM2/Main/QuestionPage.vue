@@ -6,6 +6,12 @@
     color="blue lighten-3"
     style="position: relative"
   >
+    <v-sheet dark width="auto" class="py-1 px-2" rounded color="orange">
+      <h3>{{ partNo }}</h3>
+    </v-sheet>
+    <p class="w-100 text-justify">{{ instructions }}</p>
+    <span class="font-weight-medium mb-2">Criteria:</span>
+    <CriteriaTable :criteria="criteria" :small="small" />
     <v-sheet
       color="transparent"
       width="100%"
@@ -29,7 +35,7 @@
     <v-btn
       v-if="!done"
       :disabled="!showSubmitBtn"
-      class="mt-4 mr-5"
+      class="mt-14 mr-5"
       elevation="2"
       style="position: absolute; top: 0; right: 0"
       color="success"
@@ -38,30 +44,11 @@
       <span>Submit</span>
     </v-btn>
     <span
-      class="mt-4 mr-5 text-caption error--text font-italic"
+      class="mt-16 mr-5 text-caption error--text font-italic"
       style="position: absolute; top: 0; right: 0"
       v-else
       >You've already finished this activity</span
     >
-    <img
-      src="~assets/img/classroom_floor.png"
-      width="100%"
-      style="position: absolute; bottom: 0; left: 0; right: 0"
-      alt="Teacher Image"
-    />
-    <img
-      src="~assets/img/girl_talking.gif"
-      v-bind:class="[
-        $vuetify.breakpoint.smAndDown ? 'teacher-sm' : 'teacher-lg',
-      ]"
-      alt="Teacher Image"
-    />
-    <audio v-if="voiceover != ''" ref="voiceover_trivia">
-      <source :src="voiceover" type="audio/ogg" />
-      <source :src="voiceover" type="audio/mpeg" />
-      <source :src="voiceover" type="audio/wav" />
-      Your browser does not support the audio element.
-    </audio>
   </v-sheet>
 </template>
 
@@ -80,31 +67,24 @@ import FileUpload from "Component/Global/FileUpload.vue";
 })
 export default class QuestionPage extends Vue {
   @Prop() readonly voiceover!: string;
-  @Prop() readonly part!: number;
+  @Prop() readonly partNo!: string;
+  @Prop() readonly instructions!: string;
+  @Prop() readonly criteria!: NotWellDefinedObject[];
   @Prop() readonly questions!: NotWellDefinedObject[];
+  @Prop() readonly small!: boolean;
 
   private showSubmitBtn: boolean = false;
   private done: boolean = false;
   private forSubmit: NotWellDefinedObject[] = [];
-  private submitted: NotWellDefinedObject[] = [];
   private currentUser: NotWellDefinedObject = {};
   private progress = 0;
 
   private async mounted() {
-    const sm_3 = (await this.$user.getCurrentUser()).sm_3 || {
+    const sm_2 = (await this.$user.getCurrentUser()).sm_2 || {
       done: false,
       grade: 0,
     };
-    if (sm_3.done == true) this.done = true;
-    await this.$fire.database
-      .ref(`sm_3/${uid}`)
-      .child("answers")
-      .get()
-      .then((ss) => {
-        if (ss.val() != null) {
-          this.submitted = ss.val();
-        }
-      });
+    if (sm_2.done == true) this.done = true;
   }
 
   private onSaveInput(data: NotWellDefinedObject) {
@@ -126,33 +106,17 @@ export default class QuestionPage extends Vue {
 
   private submit() {
     const uid = this.$auth.currentUserId;
-
-    if (this.$fire.database.ref(`sm_3/${uid}`) != null) {
-      let data = {};
-      if (this.submitted.length == this.part * 2) {
-        data = {
-          uid: uid,
-          answers: this.forSubmit,
-        };
-      } else {
-        data = {
-          uid: uid,
-          answers: [...this.submitted, ...this.forSubmit],
-        };
-      }
-
+    if (this.$fire.database.ref(`sm_2/${uid}`) != null) {
+      const data = {
+        uid: uid,
+        answers: this.forSubmit,
+      };
       this.$fire.database
-        .ref(`sm_3/${uid}`)
+        .ref(`sm_2/${uid}`)
         .set(data)
         .then((data) => {
+          console.log(data);
           this.showSubmitBtn = false;
-          if (this.part == 5) {
-            this.$fire.database
-              .ref(`users/${uid}`)
-              .child("sm_3")
-              .set({ done: true, grade: 0 });
-            this.done = true;
-          }
         });
     }
   }
@@ -162,8 +126,9 @@ export default class QuestionPage extends Vue {
       const uid = this.$auth.currentUserId;
       let uploadTask = this.$fire.storage
         .ref()
-        .child(`uploads/sm_3/${file.name}`)
+        .child(`uploads/sm_2/${file.name}`)
         .put(file);
+
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -198,12 +163,12 @@ export default class QuestionPage extends Vue {
             console.log("File available at", downloadURL);
             uploads.push({ url: downloadURL });
             this.$fire.database
-              .ref(`sm_3/${uid}`)
+              .ref(`sm_2/${uid}`)
               .child("uploads")
               .set(uploads);
             this.$fire.database
               .ref(`users/${uid}`)
-              .child("sm_3")
+              .child("sm_2")
               .set({ done: true, grade: 0 });
             this.done = true;
           });
@@ -217,28 +182,5 @@ export default class QuestionPage extends Vue {
     if (this.forSubmit.length == this.questions.length)
       this.showSubmitBtn = true;
   }
-
-  @Watch("submitted")
-  onSubmitted() {
-    if (this.submitted.length >= this.part * 2) {
-      this.done = true;
-    }
-  }
 }
 </script>
-
-<style scoped>
-.teacher-lg {
-  height: 50%;
-  position: absolute;
-  bottom: 35px;
-  left: 15px;
-}
-
-.teacher-sm {
-  height: 40%;
-  position: absolute;
-  bottom: 35px;
-  left: 15px;
-}
-</style>

@@ -67,7 +67,6 @@
                 <v-col cols="6" class="text-center">
                   <span>Cheesemaking</span><br />
                 </v-col>
-
                 <v-col cols="12" class="text-center">
                   <span>Baking bread</span>
                 </v-col>
@@ -108,12 +107,25 @@
                   height="150px"
                   :style="sheetStyle"
                   rounded="lg"
-                  class="pa-4"
+                  class="pa-4 oveflow-y-auto"
                   @click="inputAns(index)"
                   >{{ task.answer }}</v-sheet
                 >
               </v-row>
             </div>
+            <v-row no-gutters class="mt-2">
+              <v-spacer></v-spacer>
+              <v-btn
+                v-if="!done"
+                color="success"
+                :disabled="disableBtn"
+                @click="submit"
+                >Submit</v-btn
+              >
+              <span class="text-caption error--text font-italic" v-else
+                >You've already finished this activity</span
+              >
+            </v-row>
           </v-sheet>
         </v-sheet>
       </v-window-item>
@@ -160,6 +172,8 @@ import CriteriaTable from "Component/SM8/CriteriaTable.vue";
 export default class Station3 extends Vue {
   private stationIndex = 0;
   private answerDialog = false;
+  private disableBtn = true;
+  private done = false;
   private answer: NotWellDefinedObject = {
     index: 0,
     item: "",
@@ -225,6 +239,7 @@ export default class Station3 extends Vue {
 
   private closeModal() {
     this.answer = {
+      index: 0,
       item: "",
       input: "",
     };
@@ -240,7 +255,19 @@ export default class Station3 extends Vue {
   }
 
   private submit() {
-    console.log(this.answer);
+    const uid = this.$auth.currentUserId;
+    if (this.$fire.database.ref(`sm_8/${uid}`) != null) {
+      const data = {
+        uid: uid,
+        answers: this.tasks,
+      };
+      this.$fire.database
+        .ref(`sm_8/${uid}/sta3`)
+        .set(data)
+        .then((data) => {
+          this.disableBtn = true;
+        });
+    }
   }
 
   private contentStyle: NotWellDefinedObject = {
@@ -255,7 +282,17 @@ export default class Station3 extends Vue {
     borderColor: "#2196F3",
     borderWidth: "1px",
     borderStyle: "solid",
+    overflowWrap: "break-word",
   };
+
+  @Watch("tasks", { deep: true })
+  onFull() {
+    if (
+      this.tasks.filter((t: NotWellDefinedObject) => t.answer != "").length ==
+      this.tasks.length
+    )
+      this.disableBtn = false;
+  }
 }
 </script>
 

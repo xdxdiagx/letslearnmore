@@ -141,6 +141,7 @@ For your task, research four (4) species that have been saved from near extincti
     name: "RecoveryPage",
     props: {
       voiceover: "",
+      part: 1,
     },
     events: {},
     id: 8,
@@ -149,6 +150,7 @@ For your task, research four (4) species that have been saved from near extincti
     name: "RecoveryPage",
     props: {
       voiceover: "",
+      part: 2,
     },
     events: {},
     id: 9,
@@ -157,6 +159,7 @@ For your task, research four (4) species that have been saved from near extincti
     name: "RecoveryPage",
     props: {
       voiceover: "",
+      part: 3,
     },
     events: {},
     id: 10,
@@ -165,6 +168,7 @@ For your task, research four (4) species that have been saved from near extincti
     name: "RecoveryPage",
     props: {
       voiceover: "",
+      part: 4,
     },
     events: {},
     id: 11,

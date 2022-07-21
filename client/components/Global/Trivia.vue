@@ -63,7 +63,7 @@ export default class TriviaPage extends Vue {
   @Prop() readonly color!: string;
 
   private slotContent = "";
-  private showProceedBtn = false;
+  private showProceedBtn = true;
 
   private mounted() {
     this.slotContent = this.content;

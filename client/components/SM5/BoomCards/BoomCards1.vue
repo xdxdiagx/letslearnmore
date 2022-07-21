@@ -1,5 +1,5 @@
 <template>
-  <v-sheet height="100%" width="100%" color="transparent">
+  <v-sheet height="100%" width="100%" color="blue lighten-3">
     <v-btn
       @click="$emit('close')"
       elevation="0"
@@ -58,7 +58,7 @@
                 </v-col>
               </v-row>
               <v-row no-gutters class="pa-2 pb-4" justify="center">
-                <PunnettSquare />
+                <PunnettSquare v-on:updateMatrix="onUpdateMatrix" />
               </v-row>
             </v-card-text>
           </v-card>
@@ -99,7 +99,7 @@
                 </v-col>
                 <v-col cols="4">
                   <v-text-field
-                    v-model="item.answer"
+                    v-model="item.input"
                     hide-details
                     outlined
                     background-color="orange darken-2"
@@ -133,6 +133,8 @@ import PunnettSquare from "../PunnettSquare.vue";
 })
 export default class BoomCards1 extends Vue {
   private cardIndex = 0;
+  private showSubmitBtn = false;
+  private punnettMatrix = [];
 
   private next() {
     this.cardIndex++;
@@ -146,28 +148,49 @@ export default class BoomCards1 extends Vue {
     {
       no: 1,
       question: "What is the chance that the female child will be color blind?",
-      answer: "",
+      input: "",
     },
     {
       no: 2,
       question: "What is the chance that the couple’s son will be color blind?",
-      answer: "",
+      input: "",
     },
     {
       no: 3,
       question:
         "What is the ratio of children with normal vision to those who will be color blind?",
-      answer: "",
+      input: "",
     },
     {
       no: 4,
       question: "What is the genotype of female parent?",
-      answer: "",
+      input: "",
     },
   ];
 
   private submit() {
-    console.log(this.activityQuestions);
+    const uid = this.$auth.currentUserId;
+
+    if (this.$fire.database.ref(`sm_5/${uid}`) != null) {
+      let data = {};
+      data = {
+        uid: uid,
+        answers: this.activityQuestions,
+        punnett: this.punnettMatrix,
+      };
+
+      this.$fire.database
+        .ref(`sm_5/${uid}/bc1`)
+        .set(data)
+        .then((data) => {
+          this.showSubmitBtn = false;
+          this.clear();
+        });
+    }
+  }
+
+  private onUpdateMatrix(matrix: NotWellDefinedObject[]) {
+    this.punnettMatrix = matrix;
   }
 
   private clear() {
@@ -176,7 +199,7 @@ export default class BoomCards1 extends Vue {
         return {
           no: item.no,
           question: item.question,
-          answer: "",
+          input: "",
         };
       }
     );

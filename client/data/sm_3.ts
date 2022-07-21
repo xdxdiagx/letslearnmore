@@ -179,7 +179,8 @@ export const main_windows: NotWellDefinedObject[] = [
     name: "AssessmentPage",
     props: {
       voiceover: "",
-      items: [
+      part: 1,
+      questions: [
         {
           no: "1",
           question:
@@ -238,7 +239,8 @@ export const main_windows: NotWellDefinedObject[] = [
     name: "AssessmentPage",
     props: {
       voiceover: "",
-      items: [
+      part: 2,
+      questions: [
         {
           no: "1",
           question: "Do you think Ashley has Influenza? Why do you say so?",
@@ -309,7 +311,8 @@ export const main_windows: NotWellDefinedObject[] = [
     name: "AssessmentPage",
     props: {
       voiceover: "",
-      items: [
+      part: 3,
+      questions: [
         {
           no: "1",
           question:
@@ -380,7 +383,8 @@ export const main_windows: NotWellDefinedObject[] = [
     name: "AssessmentPage",
     props: {
       voiceover: "",
-      items: [
+      part: 4,
+      questions: [
         {
           no: "1",
           question: "What government agencies must they seek for help?",
@@ -438,7 +442,8 @@ export const main_windows: NotWellDefinedObject[] = [
     name: "AssessmentPage",
     props: {
       voiceover: "",
-      items: [
+      part: 5,
+      questions: [
         {
           no: "1",
           question:

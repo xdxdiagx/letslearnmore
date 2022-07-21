@@ -4,7 +4,6 @@
     height="100%"
     class="d-flex flex-column justify-start align-start px-5 mx-auto pb-16 pt-14"
     color="blue lighten-3"
-    max-width="720px"
     style="position: relative"
   >
     <v-sheet dark width="auto" class="py-1 px-2" rounded color="orange">
@@ -13,12 +12,20 @@
     <p class="w-100 text-justify">{{ instructions }}</p>
     <span class="font-weight-medium mb-2">Criteria:</span>
     <CriteriaTable :criteria="criteria" :small="small" />
-    <v-row v-if="questions" no-gutters class="overflow-y-auto">
-      <v-col cols="12" v-for="item in questions" :key="item.no">
-        <EssayQuestion :item="item" />
-      </v-col>
-    </v-row>
-    <FileUpload v-else />
+    <v-sheet
+      color="transparent"
+      width="100%"
+      v-if="questions"
+      class="overflow-y-auto"
+    >
+      <EssayQuestion
+        v-for="item in questions"
+        :key="item.no"
+        :item="item"
+        v-on:saveInput="onSaveInput"
+      />
+    </v-sheet>
+    <FileUpload v-else v-on:upload="onUpload" :progress="progress" />
     <audio v-if="voiceover != ''" autoplay>
       <source :src="voiceover" type="audio/ogg" />
       <source :src="voiceover" type="audio/mpeg" />
@@ -26,21 +33,29 @@
       Your browser does not support the audio element.
     </audio>
     <v-btn
-      v-if="showSubmitBtn"
+      v-if="!done"
+      :disabled="!showSubmitBtn"
       class="mt-14 mr-5"
       elevation="2"
       style="position: absolute; top: 0; right: 0"
       color="success"
+      @click="submit"
     >
       <span>Submit</span>
     </v-btn>
+    <span
+      class="mt-16 mr-5 text-caption error--text font-italic"
+      style="position: absolute; top: 0; right: 0"
+      v-else
+      >You've already finished this activity</span
+    >
   </v-sheet>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "nuxt-property-decorator";
-import EssayQuestion from "./QuestionComponents/Essay.vue";
-import CriteriaTable from "./QuestionComponents/CriteriaTable.vue";
+import { Component, Prop, Vue, Watch } from "nuxt-property-decorator";
+import EssayQuestion from "Component/SM1/QuestionComponents/Essay.vue";
+import CriteriaTable from "Component/SM1/QuestionComponents/CriteriaTable.vue";
 import FileUpload from "Component/Global/FileUpload.vue";
 
 @Component({
@@ -58,6 +73,114 @@ export default class QuestionPage extends Vue {
   @Prop() readonly questions!: NotWellDefinedObject[];
   @Prop() readonly small!: boolean;
 
-  private showSubmitBtn: boolean = true;
+  private showSubmitBtn: boolean = false;
+  private done: boolean = false;
+  private forSubmit: NotWellDefinedObject[] = [];
+  private currentUser: NotWellDefinedObject = {};
+  private progress = 0;
+
+  private async mounted() {
+    const sm_1 = (await this.$user.getCurrentUser()).sm_1 || {
+      done: false,
+      grade: 0,
+    };
+    if (sm_1.done == true) this.done = true;
+  }
+
+  private onSaveInput(data: NotWellDefinedObject) {
+    if (data.input != "") {
+      if (this.forSubmit.length == 0) {
+        this.forSubmit.push(data);
+      } else {
+        const answers = this.forSubmit.filter(
+          (q: NotWellDefinedObject) => q.no != data.no
+        );
+        answers.push(data);
+        this.forSubmit = answers.sort(
+          (a: NotWellDefinedObject, b: NotWellDefinedObject) => a.no - b.no
+        );
+      }
+    }
+    console.log(this.forSubmit);
+  }
+
+  private submit() {
+    const uid = this.$auth.currentUserId;
+    if (this.$fire.database.ref(`sm_1/${uid}`) != null) {
+      const data = {
+        uid: uid,
+        answers: this.forSubmit,
+      };
+      this.$fire.database
+        .ref(`sm_1/${uid}`)
+        .set(data)
+        .then((data) => {
+          console.log(data);
+          this.showSubmitBtn = false;
+        });
+    }
+  }
+
+  private onUpload(file: any) {
+    if (this.done == false) {
+      const uid = this.$auth.currentUserId;
+      let uploadTask = this.$fire.storage
+        .ref()
+        .child(`uploads/sm_1/${file.name}`)
+        .put(file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          let progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          this.progress = progress;
+          switch (snapshot.state) {
+            case "paused": // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case "running": // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          switch (error.code) {
+            case "storage/unauthorized":
+              console.log("User doesn't have permission to access the object");
+              break;
+            case "storage/canceled":
+              console.log("User canceled the upload");
+              break;
+          }
+        },
+        () => {
+          // Upload completed successfully, now we can get the download URL
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            let uploads = [];
+            console.log("File available at", downloadURL);
+            uploads.push({ url: downloadURL });
+            this.$fire.database
+              .ref(`sm_1/${uid}`)
+              .child("uploads")
+              .set(uploads);
+            this.$fire.database
+              .ref(`users/${uid}`)
+              .child("sm_1")
+              .set({ done: true, grade: 0 });
+            this.done = true;
+          });
+        }
+      );
+    }
+  }
+
+  @Watch("forSubmit")
+  onFull() {
+    if (this.forSubmit.length == this.questions.length)
+      this.showSubmitBtn = true;
+  }
 }
 </script>

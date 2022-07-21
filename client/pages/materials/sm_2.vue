@@ -106,8 +106,8 @@ import ReminderPage from "Component/SM2/Main/ReminderPage.vue";
 import ActivityPage1 from "Component/SM2/Main/ActivityPage1.vue";
 import ActivityPage2 from "Component/SM2/Main/ActivityPage2.vue";
 import FigureQuestion from "Component/SM2/Main/FigureQuestion.vue";
+import QuestionPage from "Component/SM2/Main/QuestionPage.vue";
 import FactsPage from "Component/SM2/FactsPage.vue";
-import QuestionPage from "Component/SM1/QuestionPage.vue";
 
 import * as sm_2 from "@/data/sm_2";
 

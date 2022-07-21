@@ -67,16 +67,29 @@
                 >Answer :</span
               >
             </v-row>
-            <v-row no-gutters class="fill-height">
+            <v-row no-gutters>
               <v-sheet
                 width="100%"
                 height="200px"
                 :style="sheetStyle"
                 @click="inputAns"
                 rounded="lg"
-                class="pa-4"
+                class="pa-4 overflow-y-auto"
                 >{{ answer.input }}</v-sheet
               >
+              <v-row no-gutters class="mt-2">
+                <v-spacer></v-spacer>
+                <v-btn
+                  v-if="!done"
+                  color="success"
+                  :disabled="disableBtn"
+                  @click="submit"
+                  >Submit</v-btn
+                >
+                <span class="text-caption error--text font-italic" v-else
+                  >You've already finished this activity</span
+                >
+              </v-row>
             </v-row>
           </v-sheet>
         </v-sheet>
@@ -123,6 +136,8 @@ import CriteriaTable from "Component/SM8/CriteriaTable.vue";
 export default class Station5 extends Vue {
   private stationIndex = 0;
   private answerDialog = false;
+  private disableBtn = true;
+  private done = false;
   private answer: NotWellDefinedObject = {
     item: "",
     input: "",
@@ -155,6 +170,14 @@ export default class Station5 extends Vue {
     ],
   };
 
+  private async mounted() {
+    const sm_8 = (await this.$user.getCurrentUser()).sm_8 || {
+      done: false,
+      grade: 0,
+    };
+    if (sm_8.done == true) this.done = true;
+  }
+
   private next() {
     this.stationIndex++;
   }
@@ -172,6 +195,27 @@ export default class Station5 extends Vue {
     this.answerDialog = false;
   }
 
+  private submit() {
+    const uid = this.$auth.currentUserId;
+    if (this.$fire.database.ref(`sm_8/${uid}`) != null) {
+      const data = {
+        uid: uid,
+        answers: this.answer.input,
+      };
+      this.$fire.database
+        .ref(`sm_8/${uid}/sta5`)
+        .set(data)
+        .then((data) => {
+          this.disableBtn = true;
+          this.$fire.database
+            .ref(`users/${uid}`)
+            .child("sm_8")
+            .set({ done: true, grade: 0 });
+          this.done = true;
+        });
+    }
+  }
+
   private contentStyle: NotWellDefinedObject = {
     borderColor: "#FF9100",
     borderWidth: "5px",
@@ -184,7 +228,13 @@ export default class Station5 extends Vue {
     borderColor: "#2196F3",
     borderWidth: "1px",
     borderStyle: "solid",
+    overflowWrap: "break-word",
   };
+
+  @Watch("answer", { deep: true })
+  onFull() {
+    if (this.answer.input != "") this.disableBtn = false;
+  }
 }
 </script>
 

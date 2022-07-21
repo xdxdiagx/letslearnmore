@@ -35,24 +35,25 @@ export default class SideBar extends Vue {
       icon: "mdi-clipboard-text",
       to: "/materials",
     },
-    {
-      title: "Activities",
-      icon: "mdi-star-outline",
-      to: "/activities",
-    },
-    {
-      title: "Results",
-      icon: "mdi-poll",
-      to: "/results",
-    },
   ];
 
   private setLinks(role: number) {
     if (role == 1) {
       this.links.push({
+        title: "Results",
+        icon: "mdi-poll",
+        to: "/results",
+      });
+      this.links.push({
         title: "Settings",
         icon: "mdi-cog",
         to: "/settings",
+      });
+    } else if (role == 2) {
+      this.links.push({
+        title: "Activities",
+        icon: "mdi-star-outline",
+        to: "/activities",
       });
     }
   }

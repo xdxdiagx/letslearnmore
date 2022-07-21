@@ -6,6 +6,7 @@
     style="
       position: relative;
       background-image: url(https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_7%2Fimages%2Fmain_page_bg.png?alt=media&token=9829d844-db29-4aab-9f6c-76bf8375439d);
+      background-size: cover;
     "
     color="blue lighten-3"
   >

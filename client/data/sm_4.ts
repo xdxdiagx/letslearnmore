@@ -199,6 +199,50 @@ export const main_windows: NotWellDefinedObject[] = [
     id: 17,
   },
   {
+    name: "AssessmentPage",
+    props: {
+      voiceover:
+        "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_4%2Fvoice_over%2Fmain%2FComics%201%20Questions%201%20and%202.wav?alt=media&token=91e6ecc3-e4fb-4957-bd34-67040f791998",
+      forUploads: [
+        {
+          no: "1",
+          question:
+            "Can you show how Daniel’s cows with red (RR) and white (Ww) hair colors produced offspring with roan color (RW)?  Use Punnet square. Send a picture of your work in the box provided below.",
+        },
+        {
+          no: "2",
+          question:
+            "Help Rodin determine the chance of having a roan cow when they mate their Red cow (RR) with their father’s friend roan cow (RW). Send a picture of your work in the box",
+        },
+      ],
+      part: 1,
+    },
+    events: {},
+    id: 18,
+  },
+  {
+    name: "AssessmentPage",
+    props: {
+      voiceover:
+        "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_4%2Fvoice_over%2Fmain%2FComics%201%20Questions%203%20and%204.wav?alt=media&token=3804b267-6bd1-487e-a531-7efb94598765",
+      questions: [
+        {
+          no: "3",
+          question:
+            "In your own words, how will you differentiate codominance with the other types of Non- Mendelian Pattern of Inheritance.",
+        },
+        {
+          no: "4",
+          question:
+            "Give other example of organism that shows the same pattern of inheritance.",
+        },
+      ],
+      part: 1,
+    },
+    events: {},
+    id: 19,
+  },
+  {
     name: "ComicStrip",
     props: {
       background:
@@ -287,5 +331,52 @@ export const main_windows: NotWellDefinedObject[] = [
     },
     events: {},
     id: 29,
+  },
+  {
+    name: "AssessmentPage",
+    props: {
+      voiceover:
+        "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_4%2Fvoice_over%2Fmain%2FComics%202%20Questions%201%20and%202.wav?alt=media&token=fb6c4582-24a1-44b6-96a5-0f235ec981f6",
+      questions: [
+        {
+          no: "1",
+          question: "What are the things to consider before donating blood?",
+        },
+      ],
+      forUploads: [
+        {
+          no: "2",
+          question:
+            "What blood type can donate to Don’s blood type? Prove your answer. Take a picture of your answer and upload it in the box below.",
+        },
+      ],
+      part: 2,
+    },
+    events: {},
+    id: 30,
+  },
+  {
+    name: "AssessmentPage",
+    props: {
+      voiceover:
+        "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_4%2Fvoice_over%2Fmain%2FComics%202%20Questions%203%20and%204.wav?alt=media&token=f4c0fb2f-644c-4258-81f3-752f539f514a",
+      forUploads: [
+        {
+          no: "4",
+          question:
+            "Do you think John is the biological father of Don? Why or why not? Use Punnet square to prove your point. Take a picture of your answer and upload it in the box below.",
+        },
+      ],
+      questions: [
+        {
+          no: "3",
+          question:
+            "In your own words, explain why the human ABO blood group is an example of a multiple allele trait with codominance.",
+        },
+      ],
+      part: 2,
+    },
+    events: {},
+    id: 31,
   },
 ];

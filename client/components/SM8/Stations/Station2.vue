@@ -54,7 +54,7 @@
                 >Answer :</span
               >
             </v-row>
-            <v-row no-gutters class="fill-height">
+            <v-row no-gutters align="start" justify="start">
               <v-sheet
                 width="100%"
                 height="200px"
@@ -64,6 +64,19 @@
                 class="pa-4"
                 >{{ answer.input }}</v-sheet
               >
+              <v-row no-gutters class="mt-2">
+                <v-spacer></v-spacer>
+                <v-btn
+                  v-if="!done"
+                  color="success"
+                  :disabled="disableBtn"
+                  @click="submit"
+                  >Submit</v-btn
+                >
+                <span class="text-caption error--text font-italic" v-else
+                  >You've already finished this activity</span
+                >
+              </v-row>
             </v-row>
           </v-sheet>
         </v-sheet>
@@ -110,6 +123,8 @@ import CriteriaTable from "Component/SM8/CriteriaTable.vue";
 export default class Station2 extends Vue {
   private stationIndex = 0;
   private answerDialog = false;
+  private disableBtn = true;
+  private done = false;
   private answer: NotWellDefinedObject = {
     item: "",
     input: "",
@@ -142,6 +157,12 @@ export default class Station2 extends Vue {
     ],
   };
 
+  private async mounted() {
+    const uid = this.$auth.currentUserId;
+    const sta2 = await this.$fire.database.ref(`sm_8/${uid}`).child("sta2");
+    if (sta2 != null || sta2 != undefined) this.done = true;
+  }
+
   private next() {
     this.stationIndex++;
   }
@@ -159,6 +180,22 @@ export default class Station2 extends Vue {
     this.answerDialog = false;
   }
 
+  private submit() {
+    const uid = this.$auth.currentUserId;
+    if (this.$fire.database.ref(`sm_8/${uid}`) != null) {
+      const data = {
+        uid: uid,
+        answers: this.answer.input,
+      };
+      this.$fire.database
+        .ref(`sm_8/${uid}/sta2`)
+        .set(data)
+        .then((data) => {
+          this.disableBtn = true;
+        });
+    }
+  }
+
   private contentStyle: NotWellDefinedObject = {
     borderColor: "#FF9100",
     borderWidth: "5px",
@@ -172,6 +209,11 @@ export default class Station2 extends Vue {
     borderWidth: "1px",
     borderStyle: "solid",
   };
+
+  @Watch("answer", { deep: true })
+  onFull() {
+    if (this.answer.input != "") this.disableBtn = false;
+  }
 }
 </script>
 

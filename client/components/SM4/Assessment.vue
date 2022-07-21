@@ -19,7 +19,19 @@
         v-on:saveInput="onSaveInput"
       />
     </v-sheet>
-    <FileUpload v-else v-on:upload="onUpload" :progress="progress" />
+    <v-sheet
+      color="transparent"
+      width="100%"
+      v-if="forUploads"
+      class="overflow-y-auto"
+    >
+      <UploadQuestion
+        v-for="(item, index) in forUploads"
+        :part="part"
+        :item="item"
+        :key="index"
+      />
+    </v-sheet>
     <audio v-if="voiceover != ''" autoplay>
       <source :src="voiceover" type="audio/ogg" />
       <source :src="voiceover" type="audio/mpeg" />
@@ -69,40 +81,52 @@
 import { Component, Prop, Vue, Watch } from "nuxt-property-decorator";
 import EssayQuestion from "Component/SM1/QuestionComponents/Essay.vue";
 import CriteriaTable from "Component/SM1/QuestionComponents/CriteriaTable.vue";
-import FileUpload from "Component/Global/FileUpload.vue";
+import UploadQuestion from "Component/SM4/UploadQuestion.vue";
 
 @Component({
   components: {
     EssayQuestion,
     CriteriaTable,
-    FileUpload,
+    UploadQuestion,
   },
 })
-export default class QuestionPage extends Vue {
+export default class AssessmentPage extends Vue {
   @Prop() readonly voiceover!: string;
   @Prop() readonly part!: number;
   @Prop() readonly questions!: NotWellDefinedObject[];
+  @Prop() readonly forUploads!: NotWellDefinedObject[];
 
   private showSubmitBtn: boolean = false;
   private done: boolean = false;
   private forSubmit: NotWellDefinedObject[] = [];
   private submitted: NotWellDefinedObject[] = [];
+  private uploads: NotWellDefinedObject[] = [];
   private currentUser: NotWellDefinedObject = {};
   private progress = 0;
 
   private async mounted() {
-    const sm_3 = (await this.$user.getCurrentUser()).sm_3 || {
+    const sm_4 = (await this.$user.getCurrentUser()).sm_4 || {
       done: false,
       grade: 0,
     };
-    if (sm_3.done == true) this.done = true;
+    if (sm_4.done == true) this.done = true;
     await this.$fire.database
-      .ref(`sm_3/${uid}`)
+      .ref(`sm_4/${uid}/${this.part}`)
       .child("answers")
       .get()
       .then((ss) => {
         if (ss.val() != null) {
           this.submitted = ss.val();
+        }
+      });
+
+    await this.$fire.database
+      .ref(`sm_4/${uid}/${this.part}`)
+      .child("uploads")
+      .get()
+      .then((ss) => {
+        if (ss.val() != null) {
+          this.uploads = ss.val();
         }
       });
   }
@@ -124,35 +148,45 @@ export default class QuestionPage extends Vue {
     console.log(this.forSubmit);
   }
 
-  private submit() {
+  private async getUploads() {
     const uid = this.$auth.currentUserId;
 
-    if (this.$fire.database.ref(`sm_3/${uid}`) != null) {
+    await this.$fire.database
+      .ref(`sm_4/${uid}/${this.part}`)
+      .child("uploads")
+      .get()
+      .then((ss) => {
+        if (ss.val() != null) {
+          this.uploads = ss.val();
+        }
+      });
+  }
+
+  private submit() {
+    const uid = this.$auth.currentUserId;
+    this.getUploads();
+
+    if (this.$fire.database.ref(`sm_4/${uid}`) != null) {
       let data = {};
       if (this.submitted.length == this.part * 2) {
         data = {
           uid: uid,
           answers: this.forSubmit,
+          uploads: this.uploads,
         };
       } else {
         data = {
           uid: uid,
           answers: [...this.submitted, ...this.forSubmit],
+          uploads: this.uploads,
         };
       }
 
       this.$fire.database
-        .ref(`sm_3/${uid}`)
+        .ref(`sm_4/${uid}/${this.part}`)
         .set(data)
         .then((data) => {
           this.showSubmitBtn = false;
-          if (this.part == 5) {
-            this.$fire.database
-              .ref(`users/${uid}`)
-              .child("sm_3")
-              .set({ done: true, grade: 0 });
-            this.done = true;
-          }
         });
     }
   }
@@ -162,8 +196,9 @@ export default class QuestionPage extends Vue {
       const uid = this.$auth.currentUserId;
       let uploadTask = this.$fire.storage
         .ref()
-        .child(`uploads/sm_3/${file.name}`)
+        .child(`uploads/sm_4/${this.part}/${file.name}`)
         .put(file);
+
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -198,14 +233,9 @@ export default class QuestionPage extends Vue {
             console.log("File available at", downloadURL);
             uploads.push({ url: downloadURL });
             this.$fire.database
-              .ref(`sm_3/${uid}`)
+              .ref(`sm_4/${uid}/${this.part}`)
               .child("uploads")
               .set(uploads);
-            this.$fire.database
-              .ref(`users/${uid}`)
-              .child("sm_3")
-              .set({ done: true, grade: 0 });
-            this.done = true;
           });
         }
       );

@@ -104,6 +104,7 @@ import IntroPage from "Component/SM4/IntroPage.vue";
 import DescriptionPage4 from "Component/SM4/DescriptionPage.vue";
 import ComicIntro from "Component/SM4/ComicIntro.vue";
 import ComicStrip from "Component/SM4/ComicStrip.vue";
+import AssessmentPage from "Component/SM4/Assessment.vue";
 
 import * as sm_4 from "@/data/sm_4";
 
@@ -117,6 +118,7 @@ import * as sm_4 from "@/data/sm_4";
     DescriptionPage4,
     ComicIntro,
     ComicStrip,
+    AssessmentPage,
   },
 })
 export default class SM4 extends Vue {

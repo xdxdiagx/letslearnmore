@@ -14,6 +14,38 @@ export class UserPlugin {
     birthdate: "",
     photoUrl: "",
     role: 0,
+    sm_1: {
+      done: false,
+      grade: 0,
+    },
+    sm_2: {
+      done: false,
+      grade: 0,
+    },
+    sm_3: {
+      done: false,
+      grade: 0,
+    },
+    sm_4: {
+      done: false,
+      grade: 0,
+    },
+    sm_5: {
+      done: false,
+      grade: 0,
+    },
+    sm_6: {
+      done: false,
+      grade: 0,
+    },
+    sm_7: {
+      done: false,
+      grade: 0,
+    },
+    sm_8: {
+      done: false,
+      grade: 0,
+    },
   };
 
   constructor(private context: Context) {
