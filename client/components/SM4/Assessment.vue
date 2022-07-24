@@ -74,6 +74,20 @@
       <source :src="voiceover" type="audio/wav" />
       Your browser does not support the audio element.
     </audio>
+    <v-dialog v-model="completed" fullscreen>
+      <v-sheet
+        color="blue lighten-3"
+        width="100%"
+        height="100%"
+        class="d-flex flex-column justify-center align-center"
+      >
+        <img src="~assets/img/ending1.gif" alt="Good Job" />
+        <v-btn to="/materials">
+          <v-icon>mdi-chevron-left</v-icon>
+          Go to Main
+        </v-btn>
+      </v-sheet>
+    </v-dialog>
   </v-sheet>
 </template>
 
@@ -105,6 +119,7 @@ export default class AssessmentPage extends Vue {
   private progress = 0;
 
   private async mounted() {
+    const uid = this.$auth.currentUserId;
     const sm_4 = (await this.$user.getCurrentUser()).sm_4 || {
       done: false,
       grade: 0,
@@ -240,6 +255,11 @@ export default class AssessmentPage extends Vue {
         }
       );
     }
+  }
+
+  private get completed() {
+    if (this.done == true && this.part == 2) return true;
+    else return false;
   }
 
   @Watch("forSubmit")

@@ -134,7 +134,7 @@ import PunnettSquare from "../PunnettSquare.vue";
 export default class BoomCards1 extends Vue {
   private cardIndex = 0;
   private showSubmitBtn = false;
-  private punnettMatrix = [];
+  private punnettMatrix: NotWellDefinedObject[] = [];
 
   private next() {
     this.cardIndex++;

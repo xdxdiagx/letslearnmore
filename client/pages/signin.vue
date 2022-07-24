@@ -2,12 +2,7 @@
   <v-container fluid class="fill-height pa-0">
     <v-row no-gutters class="fill-height" justify="center" align="center">
       <v-col cols="12" sm="6" md="4">
-        <v-card
-          min-height="450px"
-          max-width="335px"
-          rounded="lg"
-          class="mx-auto"
-        >
+        <v-card max-width="335px" rounded="lg" class="mx-auto">
           <v-card-title class="py-6 px-5">
             <h2>Sign In</h2>
           </v-card-title>

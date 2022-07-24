@@ -39,6 +39,20 @@
       <source :src="voiceover" type="audio/wav" />
       Your browser does not support the audio element.
     </audio>
+    <v-dialog v-model="done" fullscreen>
+      <v-sheet
+        color="blue lighten-3"
+        width="100%"
+        height="100%"
+        class="d-flex flex-column justify-center align-center"
+      >
+        <img src="~assets/img/ending1.gif" alt="Good Job" />
+        <v-btn to="/materials">
+          <v-icon>mdi-chevron-left</v-icon>
+          Go to Main
+        </v-btn>
+      </v-sheet>
+    </v-dialog>
   </v-sheet>
 </template>
 
@@ -48,6 +62,17 @@ import { Component, Prop, Vue } from "nuxt-property-decorator";
 @Component
 export default class StoryReminder extends Vue {
   @Prop() readonly voiceover!: string;
+
+  private done = false;
+
+  private async mounted() {
+    const uid = this.$auth.currentUserId;
+    const sm_3 = (await this.$user.getCurrentUser()).sm_3 || {
+      done: false,
+      grade: 0,
+    };
+    if (sm_3.done == true) this.done = true;
+  }
 }
 </script>
 

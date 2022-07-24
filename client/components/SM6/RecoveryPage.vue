@@ -29,7 +29,8 @@
               dense
               label="Species Name"
               outlined
-              color="black"
+              color="white"
+              background-color="orange"
               class="mb-2"
               v-model="fields.species_name"
             ></v-text-field
@@ -40,7 +41,8 @@
               dense
               label="Place Commonly Found"
               outlined
-              color="black"
+              color="white"
+              background-color="indigo"
               class="mb-2"
               v-model="fields.place_found"
             ></v-text-field
@@ -51,7 +53,8 @@
               dense
               label="Natural Habitat"
               outlined
-              color="black"
+              color="white"
+              background-color="indigo"
               class="mb-2"
               v-model="fields.natural_habitat"
             ></v-text-field

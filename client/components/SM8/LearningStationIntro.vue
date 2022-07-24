@@ -2,7 +2,7 @@
   <v-sheet
     width="100%"
     height="100%"
-    class="d-flex flex-column justify-center relative"
+    class="d-flex flex-column justify-center relative pb-16 pt-10 overflow-y-auto"
     color="blue lighten-3"
   >
     <img

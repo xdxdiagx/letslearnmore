@@ -1130,4 +1130,52 @@ export const main_windows: NotWellDefinedObject[] = [
     events: {},
     id: 22,
   },
+  {
+    name: "IntroPage",
+    props: {},
+    events: {},
+    id: 23,
+  },
+  {
+    name: "InstructionsPage",
+    props: {},
+    events: {},
+    id: 24,
+  },
+  {
+    name: "Rubrics",
+    props: {},
+    events: {},
+    id: 25,
+  },
+  {
+    name: "ProjectMain1",
+    props: {},
+    events: {},
+    id: 26,
+  },
+  {
+    name: "ProjectMain2",
+    props: {},
+    events: {},
+    id: 27,
+  },
+  {
+    name: "ProjectMain3",
+    props: {},
+    events: {},
+    id: 28,
+  },
+  {
+    name: "ProjectMain4",
+    props: {},
+    events: {},
+    id: 29,
+  },
+  {
+    name: "ProjectMain5",
+    props: {},
+    events: {},
+    id: 30,
+  },
 ];

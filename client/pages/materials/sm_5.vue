@@ -16,7 +16,7 @@
     <v-btn
       @click="referenceDialog = !referenceDialog"
       elevation="0"
-      color="grey darken-4"
+      color="black"
       class="mt-n2 mr-n2"
       fixed
       top
@@ -106,7 +106,12 @@
       <v-icon>mdi-chevron-left</v-icon>Prev
     </v-btn>
 
-    <v-dialog fullscreen v-model="referenceDialog">
+    <v-dialog
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+      v-model="referenceDialog"
+    >
       <v-card>
         <v-card-title>
           <v-row no-gutters align="center">

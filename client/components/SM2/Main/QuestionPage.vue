@@ -25,7 +25,6 @@
         v-on:saveInput="onSaveInput"
       />
     </v-sheet>
-    <FileUpload v-else v-on:upload="onUpload" :progress="progress" />
     <audio v-if="voiceover != ''" autoplay>
       <source :src="voiceover" type="audio/ogg" />
       <source :src="voiceover" type="audio/mpeg" />
@@ -62,7 +61,6 @@ import FileUpload from "Component/Global/FileUpload.vue";
   components: {
     EssayQuestion,
     CriteriaTable,
-    FileUpload,
   },
 })
 export default class QuestionPage extends Vue {
@@ -112,68 +110,12 @@ export default class QuestionPage extends Vue {
         answers: this.forSubmit,
       };
       this.$fire.database
-        .ref(`sm_2/${uid}`)
+        .ref(`sm_2/${uid}/1`)
         .set(data)
         .then((data) => {
           console.log(data);
           this.showSubmitBtn = false;
         });
-    }
-  }
-
-  private onUpload(file: any) {
-    if (this.done == false) {
-      const uid = this.$auth.currentUserId;
-      let uploadTask = this.$fire.storage
-        .ref()
-        .child(`uploads/sm_2/${file.name}`)
-        .put(file);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          let progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          this.progress = progress;
-          switch (snapshot.state) {
-            case "paused": // or 'paused'
-              console.log("Upload is paused");
-              break;
-            case "running": // or 'running'
-              console.log("Upload is running");
-              break;
-          }
-        },
-        (error) => {
-          switch (error.code) {
-            case "storage/unauthorized":
-              console.log("User doesn't have permission to access the object");
-              break;
-            case "storage/canceled":
-              console.log("User canceled the upload");
-              break;
-          }
-        },
-        () => {
-          // Upload completed successfully, now we can get the download URL
-          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            let uploads = [];
-            console.log("File available at", downloadURL);
-            uploads.push({ url: downloadURL });
-            this.$fire.database
-              .ref(`sm_2/${uid}`)
-              .child("uploads")
-              .set(uploads);
-            this.$fire.database
-              .ref(`users/${uid}`)
-              .child("sm_2")
-              .set({ done: true, grade: 0 });
-            this.done = true;
-          });
-        }
-      );
     }
   }
 

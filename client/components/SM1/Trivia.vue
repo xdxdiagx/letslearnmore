@@ -75,7 +75,7 @@ import { Component, Prop, Vue } from "nuxt-property-decorator";
 export default class TriviaPage extends Vue {
   @Prop() readonly voiceover!: string;
 
-  private showProceedBtn = false;
+  private showProceedBtn = true;
 
   private proceed() {
     this.$emit("proceed");

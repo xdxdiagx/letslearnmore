@@ -13,6 +13,20 @@
     >
       <v-icon>mdi-arrow-left</v-icon>
     </v-btn>
+    <v-btn
+      @click="referenceDialog = !referenceDialog"
+      elevation="0"
+      color="black"
+      class="mt-n2 mr-n2"
+      fixed
+      top
+      right
+      fab
+      small
+      plain
+    >
+      <v-icon>mdi-text-box</v-icon>
+    </v-btn>
     <v-window
       v-if="!showMain"
       v-model="introIndex"
@@ -91,6 +105,33 @@
     >
       <v-icon>mdi-chevron-left</v-icon>Prev
     </v-btn>
+    <v-dialog
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+      v-model="referenceDialog"
+    >
+      <v-card>
+        <v-card-title>
+          <v-row no-gutters align="center">
+            <span class="text-h6">References:</span>
+            <v-spacer></v-spacer>
+            <v-btn
+              class="mr-n2"
+              icon
+              plain
+              @click="referenceDialog = !referenceDialog"
+              ><v-icon>mdi-close</v-icon></v-btn
+            ></v-row
+          >
+        </v-card-title>
+        <v-card-text>
+          <p v-for="(r, idr) in references" :key="idr">
+            {{ r }}
+          </p>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -100,6 +141,14 @@ import Classroom from "Component/Global/Classroom.vue";
 import ObjectivePage from "Component/Global/ObjectivePage.vue";
 import Accordion from "Component/SM7/Accordion.vue";
 import MainPage from "Component/SM7/MainPage.vue";
+import IntroPage from "Component/SM7/ResearchProject/IntroPage.vue";
+import InstructionsPage from "Component/SM7/ResearchProject/Instructions.vue";
+import Rubrics from "Component/SM7/ResearchProject/Rubrics.vue";
+import ProjectMain1 from "Component/SM7/ResearchProject/ProjectMain1.vue";
+import ProjectMain2 from "Component/SM7/ResearchProject/ProjectMain2.vue";
+import ProjectMain3 from "Component/SM7/ResearchProject/ProjectMain3.vue";
+import ProjectMain4 from "Component/SM7/ResearchProject/ProjectMain4.vue";
+import ProjectMain5 from "Component/SM7/ResearchProject/ProjectMain5.vue";
 
 import * as sm_7 from "@/data/sm_7";
 
@@ -110,6 +159,14 @@ import * as sm_7 from "@/data/sm_7";
     ObjectivePage,
     Accordion,
     MainPage,
+    IntroPage,
+    InstructionsPage,
+    Rubrics,
+    ProjectMain1,
+    ProjectMain2,
+    ProjectMain3,
+    ProjectMain4,
+    ProjectMain5,
   },
 })
 export default class SM7 extends Vue {
@@ -119,10 +176,30 @@ export default class SM7 extends Vue {
   private mainVO: NotWellDefinedObject[] = [];
   private mainContents: NotWellDefinedObject[] = [];
   private showMain = false;
+  private referenceDialog = false;
 
   private windows = sm_7.windows;
-
   private main_windows = sm_7.main_windows;
+
+  private references: string[] = [
+    "“Pedigree” (n.d.) National Human Genome Research Institute. Retrieved from https://www.genome.gov/genetics-glossary/Pedigree",
+    "“Punnett Square” (n.d.) Biology online. Retrieved from https://www.biologyonline.com/dictionary/punnett-square",
+    "4f54-8e8d-0a43f06fff39.png",
+    "http://userscontent2.emaze.com/images/858757b9-aa71-475e-8cce-ffbf8eddf115/f78a1167-bd57-",
+    "http://www.clipartpanda.com/clipart_images/number-one-red-clip-art-59236123",
+    "https://cdn.britannica.com/w:400,h:300,c:crop/73/72173-004-87D1E1BB/hemophilia-pedigree-chart-inheritance-trait-generations-gene.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk7EtgLQxlkSOkVJlUcWcDns5-JjgFgn4ri1XIFgb6fvFPshhkM6fJNxTpWS3mvB7_exA&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrzWq7XoqIwzYjgEl7PhA4Rucc46AleMQ0T-0iTZD39XSWidxu-cJzx4ergAjOL4a78pI&usqp=CAU",
+    "https://i.gifer.com/origin/d7/d7ac4f38b77abe73165d85edf2cbdb9e_w200.gif",
+    "https://images.squarespace-cdn.com/content/v1/5bbbc5669b7d1566ffe45ea0/1589725665001-SB3KVEE71W8ARUYHDTZL/boom+cards+boom+learning+free+decks?format=1000w",
+    "https://mcmscache.epapr.in/post_images/website_350/post_15669903/thumb.jpg",
+    "https://pilbox.themuse.com/image.jpg?url=https%3A%2F%2Fassets.themuse.com%2Fuploaded%2Fattachments%2F13240.jpg%3Fv%3Dfc25c5c63f9affc57a40c69dfc128dcfd6b8d9d710f8b8df896a9738d6d2274a&prog=1&w=780",
+    "https://st2.depositphotos.com/5644252/8749/v/950/depositphotos_87498430-stock-illustration-my-family-vetor.jpg",
+    "https://thumbs.gfycat.com/ElatedBrownBaboon-max-1mb.gif",
+    "https://www.clipartmax.com/middle/m2K9A0m2m2b1i8Z5_cartoon-number-two-two-cartoon-png/",
+    "Nickle, T., & Barrette- Ng (2020) Pedigree Analysis. Biology LibreTexts. Retrieved from https://bio.libretexts.org/Bookshelves/Genetics/Book%3A_Online_Open_Genetics_(Nickle_and_Barrette-Ng)/05%3A_Pedigrees_and_Populations/5.02%3A_Pedigree_Analysis",
+    "Phelan, J., (2013) Punnett square. Science Direct. Retrieved from https://www.sciencedirect.com/topics/biochemistry-genetics-and-molecular-biology/punnett-square",
+  ];
 
   private get introWindows() {
     this.windows.forEach((window) => {
@@ -168,7 +245,7 @@ export default class SM7 extends Vue {
   }
 
   private proceedToMain() {
-    this.showMain = !this.showMain;
+    this.showMain = true;
   }
 }
 </script>

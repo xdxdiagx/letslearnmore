@@ -121,6 +121,17 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" class="mb-2">
+                <v-select
+                  v-model="fields.section"
+                  :items="[1, 2]"
+                  :rules="[rules.required]"
+                  outlined
+                  hide-details
+                  label="Section*"
+                  required
+                ></v-select>
+              </v-col>
+              <v-col cols="12" class="mb-2">
                 <v-text-field
                   v-model="fields.password"
                   label="Password*"
@@ -174,7 +185,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="showModal = false">
+          <v-btn color="red lighten-1" text @click="showModal = false">
             Close
           </v-btn>
           <v-btn color="blue darken-1" text @click="addStudent"> Save </v-btn>
@@ -186,6 +197,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
+import { Account } from "~/types/account";
 @Component({
   layout: "default",
 })
@@ -200,13 +212,14 @@ export default class Settings extends Vue {
     email: (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
   };
 
-  private fields: NotWellDefinedObject = {
+  private fields: Account = {
     firstName: "",
     lastName: "",
     birthdate: new Date().toISOString().substr(0, 10),
     gender: "Male",
     email: "",
     password: "",
+    section: 1,
     role: 2,
   };
 
@@ -234,10 +247,19 @@ export default class Settings extends Vue {
         this.fields.firstName != "" &&
         this.fields.lastName != ""
       ) {
+        const userData: Account = {
+          firstName: this.fields.firstName,
+          lastName: this.fields.lastName,
+          email: this.fields.email,
+          birthdate: this.fields.birthdate,
+          gender: this.fields.gender,
+          role: this.fields.role,
+          section: this.fields.section,
+        };
         await this.$auth.createUser(
           this.fields.email,
           this.fields.password,
-          this.fields
+          userData
         );
         this.showModal = false;
         this.resetFields();
@@ -257,6 +279,7 @@ export default class Settings extends Vue {
       gender: "Male",
       email: "",
       password: "",
+      section: 1,
       role: 2,
     };
   }

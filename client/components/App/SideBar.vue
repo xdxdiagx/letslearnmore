@@ -40,6 +40,11 @@ export default class SideBar extends Vue {
   private setLinks(role: number) {
     if (role == 1) {
       this.links.push({
+        title: "Submissions",
+        icon: "mdi-clipboard-check-multiple",
+        to: "/submissions",
+      });
+      this.links.push({
         title: "Results",
         icon: "mdi-poll",
         to: "/results",

@@ -49,6 +49,20 @@
       v-else
       >You've already finished this activity</span
     >
+    <v-dialog v-model="done" fullscreen>
+      <v-sheet
+        color="blue lighten-3"
+        width="100%"
+        height="100%"
+        class="d-flex flex-column justify-center align-center"
+      >
+        <img src="~assets/img/ending1.gif" alt="Good Job" />
+        <v-btn to="/materials">
+          <v-icon>mdi-chevron-left</v-icon>
+          Go to Main
+        </v-btn>
+      </v-sheet>
+    </v-dialog>
   </v-sheet>
 </template>
 

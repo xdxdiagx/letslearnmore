@@ -21,7 +21,8 @@ import { Component, Vue } from "nuxt-property-decorator";
 export default class Results extends Vue {
   private students: NotWellDefinedObject[] = [];
   async created() {
-    this.getAllStudents();
+    await this.getAllStudents();
+    console.log(this.sortedStudents);
   }
 
   private headers: NotWellDefinedObject[] = [
@@ -80,14 +81,26 @@ export default class Results extends Vue {
   ];
 
   private async getAllStudents() {
-    await this.$fire.database.ref("users").once("value", (ss) => {
-      ss.forEach((cs) => {
-        const user = cs.val();
-        if (user.role == 2) {
-          this.students.push(user);
-        }
+    await this.$fire.database
+      .ref("users")
+      .orderByChild("role")
+      .equalTo(2)
+      .once("value", (ss) => {
+        this.students = this.snapshotToArray(ss);
       });
+  }
+
+  private snapshotToArray(snapshot: NotWellDefinedObject) {
+    var returnArr: NotWellDefinedObject[] = [];
+
+    snapshot.forEach(function (childSnapshot: any) {
+      var item = childSnapshot.val();
+      item.key = childSnapshot.key;
+
+      returnArr.push(item);
     });
+
+    return returnArr;
   }
 
   private get sortedStudents() {

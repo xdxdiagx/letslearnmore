@@ -13,6 +13,20 @@
     >
       <v-icon>mdi-arrow-left</v-icon>
     </v-btn>
+    <v-btn
+      @click="referenceDialog = !referenceDialog"
+      elevation="0"
+      color="black"
+      class="mt-n2 mr-n2"
+      fixed
+      top
+      right
+      fab
+      small
+      plain
+    >
+      <v-icon>mdi-text-box</v-icon>
+    </v-btn>
     <v-window
       v-if="!showMain"
       v-model="introIndex"
@@ -91,6 +105,33 @@
     >
       <v-icon>mdi-chevron-left</v-icon>Prev
     </v-btn>
+    <v-dialog
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+      v-model="referenceDialog"
+    >
+      <v-card>
+        <v-card-title>
+          <v-row no-gutters align="center">
+            <span class="text-h6">References:</span>
+            <v-spacer></v-spacer>
+            <v-btn
+              class="mr-n2"
+              icon
+              plain
+              @click="referenceDialog = !referenceDialog"
+              ><v-icon>mdi-close</v-icon></v-btn
+            ></v-row
+          >
+        </v-card-title>
+        <v-card-text>
+          <p v-for="(r, idr) in references" :key="idr">
+            {{ r }}
+          </p>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -128,9 +169,23 @@ export default class SM4 extends Vue {
   private mainVO: NotWellDefinedObject[] = [];
   private mainContents: NotWellDefinedObject[] = [];
   private showMain = false;
+  private referenceDialog = false;
 
   private windows = sm_4.windows;
   private main_windows = sm_4.main_windows;
+
+  private references: string[] = [
+    "Bailey, R., (2019) Respiratory System and How We Breathe. Retrieved from https://www.thoughtco.com/respiratory-system-4064891",
+    "Capco, C., & Yang, G., (n.d.) You and The Natural World Biology. Third Edition. Phoenix Publishing House. ",
+    "Capco, C., (2002) Biology. Phoenix Science Series. Phoenix Publishing House.",
+    "Cennimo, D., et al, (2021) How did coronavirus outbreak start?. Medscape. Retrieved fromhttps://www.medscape.com/answers/2500114-197402/how-did-the-coronavirus-outbreak-start",
+    "Challenge 5: How does COVID-19 affect the respiratory system? (2020). Yale School of Medicine. Retrieved from https://medicine.yale.edu/coved/modules/virus/respiratory/",
+    "Elflein, J., (2021) Number of coronavirus (COVID-19) cases, recoveries, and deaths worldwide as of July 9, 2021. Statista. Retrieved from https://www.statista.com/statistics/1087466/covid19-cases-recoveries-deaths-worldwide/",
+    "Kandola, A., (2020). Coronavirus cause: Origin and how it spreads. Retrieved from https://www.medicalnewstoday.com/articles/coronavirus-causes",
+    "Lockett, E., (2019) What is a Normal Respiratory Rate for Kids and Adults? Healthline. Retrieved from https://www.healthline.com/health/normal-respiratory-rate#measuring-rate",
+    "Poster success criteria. Retrieved at https://www.pinterest.ph/pin/52284045645655178/",
+    "Zafar, A., (2020) What is a ventilator and who gets one if COVID-19 turns catastrophic in Canada?. CBSNEWS. Retrieved from https://www.cbc.ca/news/health/covid19-ventilators-1.5515550",
+  ];
 
   private async getIntroVoiceOver() {
     const voiceOverRef = this.$fire.storage

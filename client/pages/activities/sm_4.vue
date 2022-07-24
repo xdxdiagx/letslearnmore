@@ -26,9 +26,6 @@
       class="d-flex flex-row align-center justify-space-between"
     >
       <v-spacer></v-spacer>
-      <v-sheet dark width="auto" class="py-1 px-2" rounded :color="gradeColor">
-        <h4>Grade: {{ grade }}</h4>
-      </v-sheet>
     </v-sheet>
     <v-sheet dark width="auto" class="py-1 px-2" rounded color="orange">
       <h3>Part 1</h3>
@@ -100,6 +97,23 @@
         <ImageContainer :src="img.url" />
       </v-sheet>
     </v-sheet>
+    <v-sheet
+      width="100%"
+      color="transparent"
+      class="d-flex flex-row align-center justify-space-between pr-4 mt-3"
+      :style="gradeStyle"
+    >
+      <v-spacer></v-spacer>
+      <v-sheet
+        dark
+        width="auto"
+        class="py-1 px-2 mb-2"
+        rounded
+        :color="gradeColor"
+      >
+        <h4>Grade: {{ grade }}</h4>
+      </v-sheet>
+    </v-sheet>
   </v-sheet>
 </template>
 
@@ -160,6 +174,12 @@ export default class SM4_Activity extends Vue {
     borderWidth: "2px",
     borderStyle: "solid",
     overflowWrap: "break-word",
+  };
+
+  private gradeStyle: NotWellDefinedObject = {
+    position: "absolute",
+    top: "0",
+    right: "0",
   };
 }
 </script>

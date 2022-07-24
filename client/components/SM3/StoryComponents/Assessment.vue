@@ -91,6 +91,7 @@ export default class QuestionPage extends Vue {
   private progress = 0;
 
   private async mounted() {
+    const uid = this.$auth.currentUserId;
     const sm_3 = (await this.$user.getCurrentUser()).sm_3 || {
       done: false,
       grade: 0,

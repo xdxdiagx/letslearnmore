@@ -3,7 +3,7 @@
     <notification-toast />
     <v-row no-gutters>
       <v-main>
-        <v-container fluid class="px-5 py-0 fill-height">
+        <v-container fluid class="pa-0 fill-height">
           <Nuxt />
         </v-container>
       </v-main>
