@@ -1,6 +1,5 @@
 <template>
   <v-app dark>
-    <notification-toast />
     <v-row no-gutters>
       <v-main>
         <v-container fluid class="pa-0 fill-height">

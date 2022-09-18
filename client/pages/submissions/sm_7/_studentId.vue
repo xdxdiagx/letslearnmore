@@ -254,16 +254,46 @@
       :style="gradeStyle"
     >
       <v-spacer></v-spacer>
-      <v-sheet
-        dark
-        width="auto"
-        class="py-1 px-2 mb-2"
-        rounded
-        :color="gradeColor"
-      >
+      <v-sheet dark width="auto" class="py-1 px-2" rounded :color="gradeColor">
         <h4>Grade: {{ grade }}</h4>
       </v-sheet>
+      <v-btn v-if="sm_7.grade == 0" @click="toGrade" color="primary" large icon>
+        <v-icon large>mdi-seal-variant</v-icon>
+      </v-btn>
     </v-sheet>
+
+    <v-dialog max-width="600px" v-model="gradeDialog" persistent>
+      <v-card>
+        <v-card-text class="pa-4 pb-0">
+          <v-text-field
+            autofocus
+            hide-details
+            outlined
+            dense
+            label="Grade"
+            suffix="points"
+            class="mb-2"
+            v-model="itemGrade.grade"
+          ></v-text-field>
+          <v-textarea
+            hide-details
+            outlined
+            dense
+            no-resize
+            clearable
+            rows="4"
+            label="Leave a comment"
+            v-model="itemGrade.comment"
+          >
+          </v-textarea>
+        </v-card-text>
+        <v-card-actions class="pb-4">
+          <v-btn @click="cancel" color="grey" dark>Cancel</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn @click="saveGrade" color="primary">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-sheet>
 </template>
 
@@ -285,6 +315,13 @@ export default class SM7_Activity extends Vue {
   private content5: NotWellDefinedObject[] = [];
   private sm_7: NotWellDefinedObject = {};
   private page = 0;
+
+  private gradeDialog = false;
+
+  private itemGrade: NotWellDefinedObject = {
+    grade: 0,
+    comment: "",
+  };
 
   private content: string = `During your discussions, you have surely familiarized yourself with the terms associated with Cellular Respiration.<br/><span class="text-h6 yellow">TASK!</span><br/><p class="error--text mb-0">Find the 20 (twenty) vocabulary words related to cellular respiration on the next slide. Look for them in all directions, including backward and diagonally. Good luck!</p>`;
 
@@ -386,15 +423,52 @@ export default class SM7_Activity extends Vue {
 
   private get grade() {
     if (this.sm_7.grade == 0) return "Not yet graded";
-    else return `${Math.ceil(this.sm_7.grade)}%`;
+    else return `${this.sm_7.grade} points`;
   }
 
   private get gradeColor() {
     if (this.sm_7.grade == 0) return "";
-    if (this.sm_7.grade <= 50) return "amber";
-    if (this.sm_7.grade <= 75) return "yellow";
-    if (this.sm_7.grade <= 85) return "light-green";
+    if (this.sm_7.grade <= 3) return "amber";
+    if (this.sm_7.grade <= 6) return "yellow";
+    if (this.sm_7.grade <= 9) return "light-green";
     else return "green";
+  }
+
+  private toGrade() {
+    this.gradeDialog = !this.gradeDialog;
+  }
+
+  private cancel() {
+    this.itemGrade = {
+      grade: 0,
+      comment: "",
+    };
+    this.gradeDialog = false;
+  }
+
+  private saveGrade() {
+    const uid = this.$route.params.studentId;
+    this.itemGrade.grade = parseFloat(this.itemGrade.grade);
+    this.$fire.database
+      .ref(`grades/sm_7/${uid}`)
+      .set(this.itemGrade)
+      .then((data) => {
+        this.cancel();
+        console.log(data);
+      });
+    this.$fire.database
+      .ref(`grades/sm_7/${uid}`)
+      .get()
+      .then((data) => {
+        this.$fire.database
+          .ref(`users/${uid}`)
+          .child("sm_7")
+          .set({ done: true, grade: this.itemGrade.grade });
+        this.sm_7 = {
+          done: true,
+          grade: this.itemGrade.grade,
+        };
+      });
   }
 
   private getMatrix(matrix: NotWellDefinedObject[]) {

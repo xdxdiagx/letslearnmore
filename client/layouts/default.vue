@@ -9,6 +9,7 @@
         :temporary="!sideBar"
         color="primary"
         dark
+        height="100vh"
       >
         <SideBar />
         <template v-slot:append>
@@ -38,8 +39,8 @@
         </template>
       </v-navigation-drawer>
       <v-main>
-        <AppBar class="mt-2 mx-5" v-on:clickNavIcon="onClickNavIcon" />
-        <v-container fluid class="px-5 py-0">
+        <v-container fluid class="px-4 pt-0 pb-4">
+          <AppBar class="mt-2" v-on:clickNavIcon="onClickNavIcon" />
           <Nuxt />
         </v-container>
       </v-main>

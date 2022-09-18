@@ -36,7 +36,7 @@
             />
             <span class="text-h6 yellow">TASK!</span><br />
             <span class="error--text text-subtitle-2"
-              >Upon learning how cellular respiration takes place, Justify the
+              >Upon learning how cellular respiration takes place, justify the
               importance of cellular respiration to living things. Support your
               answers with evidence or examples.
             </span>
@@ -171,11 +171,15 @@ export default class Station5 extends Vue {
   };
 
   private async mounted() {
-    const sm_8 = (await this.$user.getCurrentUser()).sm_8 || {
-      done: false,
-      grade: 0,
-    };
-    if (sm_8.done == true) this.done = true;
+    const uid = this.$auth.currentUserId;
+    let sta5: NotWellDefinedObject = {};
+    await this.$fire.database
+      .ref(`sm_8/${uid}/sta5`)
+      .get()
+      .then((ss: NotWellDefinedObject) => {
+        sta5 = ss.val();
+      });
+    if (sta5 != null || sta5 != undefined) this.done = true;
   }
 
   private next() {
@@ -212,6 +216,7 @@ export default class Station5 extends Vue {
             .child("sm_8")
             .set({ done: true, grade: 0 });
           this.done = true;
+          this.$emit("finished");
         });
     }
   }

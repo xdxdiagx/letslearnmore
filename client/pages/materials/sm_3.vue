@@ -129,6 +129,12 @@
           <p v-for="(r, idr) in references" :key="idr">
             {{ r }}
           </p>
+          <v-row no-gutters v-if="content_references.length > 0">
+            <span class="text-h6 black--text mb-2">Images</span>
+            <p class="" v-for="(cr, idr) in content_references" :key="idr">
+              {{ cr }}
+            </p>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -182,16 +188,31 @@ export default class SM3 extends Vue {
   private main_windows = sm_3.main_windows;
 
   private references: string[] = [
-    "Bailey, R., (2019) Respiratory System and How We Breathe. Retrieved from https://www.thoughtco.com/respiratory-system-4064891",
-    "Capco, C., & Yang, G., (n.d.) You and The Natural World Biology. Third Edition. Phoenix Publishing House. ",
-    "Capco, C., (2002) Biology. Phoenix Science Series. Phoenix Publishing House.",
-    "Cennimo, D., et al, (2021) How did coronavirus outbreak start?. Medscape. Retrieved fromhttps://www.medscape.com/answers/2500114-197402/how-did-the-coronavirus-outbreak-start",
-    "Challenge 5: How does COVID-19 affect the respiratory system? (2020). Yale School of Medicine. Retrieved from https://medicine.yale.edu/coved/modules/virus/respiratory/",
-    "Elflein, J., (2021) Number of coronavirus (COVID-19) cases, recoveries, and deaths worldwide as of July 9, 2021. Statista. Retrieved from https://www.statista.com/statistics/1087466/covid19-cases-recoveries-deaths-worldwide/",
-    "Kandola, A., (2020). Coronavirus cause: Origin and how it spreads. Retrieved from https://www.medicalnewstoday.com/articles/coronavirus-causes",
-    "Lockett, E., (2019) What is a Normal Respiratory Rate for Kids and Adults? Healthline. Retrieved from https://www.healthline.com/health/normal-respiratory-rate#measuring-rate",
-    "Poster success criteria. Retrieved at https://www.pinterest.ph/pin/52284045645655178/",
-    "Zafar, A., (2020) What is a ventilator and who gets one if COVID-19 turns catastrophic in Canada?. CBSNEWS. Retrieved from https://www.cbc.ca/news/health/covid19-ventilators-1.5515550",
+    "“Asthma” (2020). Mayo Clinic Retrieved from https://www.mayoclinic.org/diseases-conditions/asthma/symptoms-causes/syc-20369653",
+    "“High Blood Pressure Symptoms and Causes” (2021) Center for disease Control and Prevention. Retrieved from https://www.cdc.gov/bloodpressure/about.htm",
+    "“High Blood Pressure” (2021). Mayo clinic. Retrieved from https://www.mayoclinic.org/diseases-conditions/high-blood-pressure/symptoms-causes/syc-20373410",
+    "“Influenza (flu)” (2020) Mayo Clinic. Retrieved from https://www.mayoclinic.org/diseases-conditions/flu/symptoms-causes/syc-20351719",
+    "“Leukemia” (2019) Cleveland Clinic. Retrieved from https://my.clevelandclinic.org/health/diseases/4365-leukemia",
+    "“Pneumonia symptoms and diagnosis” (2021) American Lung Association. Retrieved from https://www.lung.org/lung-health-diseases/lung-disease-lookup/pneumonia/symptoms-and-diagnosis",
+    "Brazier, Y., (2019) All you need to know about flu. Medical News Today. Retrieved from https://www.medicalnewstoday.com/articles/15107",
+    "Holland, K., & Goldman, L., (2020) What do you want to know about asthma? Healthline. Retrieved from https://www.healthline.com/health/asthma",
+    "Khatri, M., (2020) Tuberculosis (TB). WebMD. Retrieved from https://www.webmd.com/lung/understanding-tuberculosis-basics",
+    "Lights, V., (2019) Leukemia. Healthline. Retrieved from https://www.healthline.com/health/leukemia",
+    "McIntosh, J., (2020) All you need to know about Tuberculosis (TB). Medical News Today. Retrieved from https://www.medicalnewstoday.com/articles/8856",
+    "Nall, R., ( 2021) What to know about lung cancer? Medical News Today. Retrieved from https://www.medicalnewstoday.com/articles/323701#what-is-it",
+    "Neely, K., (2019) Using Rubrics to Grade Open-Ended Questions. Study Weekly. Retrieved from https://www.studiesweekly.com/using-rubrics/",
+    "Normandin, B., (2019) Everything you need to know about Pneumonia. Healthline. Retrieved from https://www.healthline.com/health/pneumonia",
+    "Robinson, J., (2019) Leukemia. WebMD. Retrieved from https://www.webmd.com/cancer/lymphoma/understanding-leukemia-basics",
+    "Robinson, J., (2020) Pneumonia. WebMD. Retrieved from https://www.webmd.com/lung/understanding-pneumonia-basics",
+  ];
+
+  private content_references: string[] = [
+    "https://gifimage.net/wp-content/uploads/2017/10/medicamento-gif-10.gif",
+    "https://novocom.top/view/ff48da-animated-clipart-talking-teacher-gif-transparent/",
+    "https://previews.123rf.com/images/dreamsvector/dreamsvector1802/dreamsvector180200135/96094519-medical-instruments-aid-kit-doctor-tools-medicament-in-cartoon-style-medication-hospital-health-trea.jpg",
+    "https://wolfeborolibrary.org/welcome-to-wolfeboro-public-library/girl-reading-book/",
+    "https://www.pinterest.at/pin/674203006693073274/",
+    "https://www.rcsdk12.org/domain/3413",
   ];
 
   private async getIntroVoiceOver() {

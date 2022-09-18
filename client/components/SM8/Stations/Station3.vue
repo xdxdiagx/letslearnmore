@@ -226,6 +226,18 @@ export default class Station3 extends Vue {
     },
   ];
 
+  private async mounted() {
+    const uid = this.$auth.currentUserId;
+    let sta3: NotWellDefinedObject = {};
+    await this.$fire.database
+      .ref(`sm_8/${uid}/sta3`)
+      .get()
+      .then((ss: NotWellDefinedObject) => {
+        sta3 = ss.val();
+      });
+    if (sta3 != null || sta3 != undefined) this.done = true;
+  }
+
   private inputAns(index: number) {
     this.answerDialog = !this.answerDialog;
     this.answer.item = this.tasks[index].task;

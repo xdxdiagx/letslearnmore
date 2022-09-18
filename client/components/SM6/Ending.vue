@@ -1,13 +1,10 @@
 <template>
-  <v-sheet width="100%" height="100%" class="pt-14 px-5" color="blue lighten-3">
+  <v-sheet width="100%" height="100%" class="pt-14 px-4" color="blue lighten-3">
     <image-container
-      v-if="imageUrl"
-      :src="imageUrl"
-      :topicTitle="topicTitle"
-      class="rounded-xl mx-auto"
       :width="'100%'"
       :height="'40%'"
-      :imageStyle="imageStyle"
+      class="rounded-xl"
+      :src="'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fquotefancy.com%2Fmedia%2Fwallpaper%2F3840x2160%2F3261450-Loretta-Lynch-Quote-We-all-have-a-responsibility-to-protect.jpg&f=1&nofb=1'"
     />
     <img
       src="~assets/img/girl_talking.gif"
@@ -19,7 +16,13 @@
     <img
       src="~assets/img/classroom_floor.png"
       width="100%"
-      style="position: absolute; bottom: 0; left: 0; right: 0"
+      style="
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-height: 200px;
+      "
       alt="Classrom Floor"
     />
     <audio v-if="voiceover != ''" ref="voice_over">
@@ -28,18 +31,6 @@
       <source :src="voiceover" type="audio/wav" />
       Your browser does not support the audio element.
     </audio>
-    <v-btn
-      v-if="withProceedBtn && showProceedBtn"
-      @click="proceed"
-      class="ma-2 px-2"
-      elevation="2"
-      bottom
-      right
-      fixed
-    >
-      <span class="error--text">Proceed</span
-      ><v-icon color="error">mdi-chevron-right</v-icon>
-    </v-btn>
   </v-sheet>
 </template>
 
@@ -47,25 +38,20 @@
 import { Component, Prop, Vue } from "nuxt-property-decorator";
 
 @Component
-export default class ClassroomFloorPage extends Vue {
+export default class Ending extends Vue {
   @Prop() readonly voiceover!: string;
-  @Prop() readonly imageUrl!: string;
-  @Prop() readonly imageStyle!: NotWellDefinedObject;
-  @Prop() readonly topicTitle!: string;
-  @Prop() readonly withProceedBtn!: boolean;
 
-  private showProceedBtn = true;
+  private done = false;
 
-  private proceed() {
-    this.$emit("proceed");
-  }
-
-  private mounted() {
+  private async mounted() {
     const voice_over: any = this.$refs?.voice_over;
     voice_over.play();
-    voice_over.addEventListener("ended", () => {
-      this.showProceedBtn = true;
-    });
+
+    const sm_6 = (await this.$user.getCurrentUser()).sm_6 || {
+      done: false,
+      grade: 0,
+    };
+    if (sm_6.done == true) this.done = true;
   }
 }
 </script>

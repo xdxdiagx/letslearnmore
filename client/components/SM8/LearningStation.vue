@@ -2,7 +2,7 @@
   <v-container class="fill-height d-flex flex-column h-100 align-start pa-0">
     <v-window v-model="mainIndex" touchless style="width: 100%; height: 100vh">
       <v-window-item
-        v-for="(item, index) in main_windows"
+        v-for="(item, index) in mainWindows"
         :key="`item-${index}`"
         class="fill-height pa-0 ma-0"
       >
@@ -44,7 +44,7 @@
     </v-btn>
 
     <v-btn
-      v-if="mainIndex < 2"
+      v-if="mainIndex > 0 && mainIndex < 2"
       @click="prevMain"
       class="ma-2 px-2"
       elevation="2"
@@ -54,7 +54,7 @@
     >
       <v-icon>mdi-chevron-left</v-icon>Prev
     </v-btn>
-    <audio v-if="voiceover != ''" autoplay loop>
+    <audio v-if="voiceover != ''" ref="voiceover" autoplay loop>
       <source :src="voiceover" type="audio/ogg" />
       <source :src="voiceover" type="audio/mpeg" />
       <source :src="voiceover" type="audio/wav" />
@@ -106,10 +106,42 @@ export default class LearningStation extends Vue {
     {
       name: "LearningRoadMap",
       props: {},
-      events: {},
+      events: {
+        finish: "onFinish",
+      },
       id: 4,
     },
   ];
+
+  private get mainWindows() {
+    let windows = this.main_windows;
+
+    windows.forEach((window: NotWellDefinedObject) => {
+      if (window.hasOwnProperty("events")) {
+        let events: any = window.events;
+        for (let i in events) {
+          if (events.hasOwnProperty(i)) {
+            let functionName: any = events[i];
+            const self: NotWellDefinedObject = this;
+            if (
+              this.hasOwnProperty(functionName) &&
+              typeof self[functionName] === "function"
+            ) {
+              window.events[i] = self[functionName];
+            }
+          }
+        }
+      }
+    });
+
+    return this.main_windows;
+  }
+
+  private onFinish() {
+    console.log("finish");
+    const voiceover: any = this.$refs?.voiceover;
+    voiceover.pause();
+  }
 
   private nextMain() {
     this.mainIndex =

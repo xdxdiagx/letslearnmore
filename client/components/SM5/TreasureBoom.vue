@@ -1,6 +1,6 @@
 <template>
   <v-sheet width="100%" height="100%" class="pt-14 px-4" color="blue lighten-3">
-    <v-slide-y-reverse-transition>
+    <v-slide-y-reverse-transition v-if="!done">
       <v-row v-show="boom" no-gutters justify="center">
         <template>
           <v-col class="pr-2" cols="5" sm="3" lg="2">
@@ -46,7 +46,7 @@
         </template>
       </v-row>
     </v-slide-y-reverse-transition>
-    <v-slide-y-reverse-transition>
+    <v-slide-y-reverse-transition v-if="!done">
       <v-row
         v-show="boom"
         no-gutters
@@ -97,6 +97,17 @@
         </template>
       </v-row>
     </v-slide-y-reverse-transition>
+    <image-container
+      v-if="done"
+      class="rounded-xl"
+      :src="'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.quoteswave.com%2Fwp-content%2Fuploads%2F2012%2F03%2FIt-does-not-matter-how-slowly-you.png&f=1&nofb=1'"
+    />
+    <v-row v-if="done" justify="end" no-gutters class="mt-4">
+      <v-btn to="/materials">
+        <v-icon>mdi-chevron-left</v-icon>
+        Go to Main
+      </v-btn>
+    </v-row>
     <img
       v-if="!cardDialog"
       src="~assets/img/girl_talking.gif"
@@ -151,7 +162,7 @@
       <BoomCards1 v-if="currCard == 1" v-on:close="cardDialog = false" />
       <BoomCards2 v-else-if="currCard == 2" v-on:close="cardDialog = false" />
       <BoomCards3 v-else-if="currCard == 3" v-on:close="cardDialog = false" />
-      <BoomCards4 v-else-if="currCard == 4" v-on:close="cardDialog = false" />
+      <BoomCards4 v-else-if="currCard == 4" v-on:close="closeBoomCard" />
     </v-dialog>
     <audio v-if="voiceover != ''" ref="voice_over">
       <source :src="voiceover" type="audio/ogg" />
@@ -183,6 +194,7 @@ export default class TreasureBoom extends Vue {
   private showProceedBtn = true;
   private boom = false;
   private cardDialog = false;
+  private done = false;
   private currCard = 0;
 
   private cards: NotWellDefinedObject[] = [
@@ -205,9 +217,25 @@ export default class TreasureBoom extends Vue {
     this.currCard = cardNumber;
   }
 
-  private mounted() {
-    const voice_over: any = this.$refs?.voice_over;
-    voice_over.play();
+  private async closeBoomCard() {
+    this.cardDialog = false;
+    const sm_5 = (await this.$user.getCurrentUser()).sm_5 || {
+      done: false,
+      grade: 0,
+    };
+    if (sm_5.done == true) this.done = true;
+  }
+
+  private async mounted() {
+    const sm_5 = (await this.$user.getCurrentUser()).sm_5 || {
+      done: false,
+      grade: 0,
+    };
+    if (sm_5.done == true) this.done = true;
+    if (this.done == false) {
+      const voice_over: any = this.$refs?.voice_over;
+      voice_over.play();
+    }
   }
 }
 </script>

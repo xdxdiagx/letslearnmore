@@ -13,14 +13,14 @@
             <p
               class="text-h6 font-weight-bold text-justify blue--text text--darken-4"
             >
-              Why do cats, dogs and rabbits have so many different coat colors?
+              Why do cats, dogs, and rabbits have so many different coat colors?
             </p>
           </v-col>
           <v-col offset="2" cols="10">
             <p
               class="text-body-1 font-weight-bold text-justify blue--text text--darken-4"
             >
-              Why we have different types of blood groups?
+              Why do we have different types of blood groups?
             </p>
           </v-col>
           <v-col offset="2" cols="10">
@@ -53,7 +53,7 @@
             <p
               class="text-h6 font-weight-bold text-center green--text text--darken-1 mb-0"
             >
-              MULTIPLE ALLEISM
+              MULTIPLE ALLELISM
             </p>
           </v-col>
           <v-col cols="6" class="mb-4">

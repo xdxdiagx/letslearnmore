@@ -129,6 +129,12 @@
           <p v-for="(r, idr) in references" :key="idr">
             {{ r }}
           </p>
+          <v-row no-gutters v-if="content_references.length > 0">
+            <span class="text-h6 black--text mb-2">Images</span>
+            <p class="" v-for="(cr, idr) in content_references" :key="idr">
+              {{ cr }}
+            </p>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -146,6 +152,7 @@ import DescriptionPage4 from "Component/SM4/DescriptionPage.vue";
 import ComicIntro from "Component/SM4/ComicIntro.vue";
 import ComicStrip from "Component/SM4/ComicStrip.vue";
 import AssessmentPage from "Component/SM4/Assessment.vue";
+import AssessmentPage2 from "Component/SM4/Assessment2.vue";
 
 import * as sm_4 from "@/data/sm_4";
 
@@ -160,6 +167,7 @@ import * as sm_4 from "@/data/sm_4";
     ComicIntro,
     ComicStrip,
     AssessmentPage,
+    AssessmentPage2,
   },
 })
 export default class SM4 extends Vue {
@@ -175,16 +183,19 @@ export default class SM4 extends Vue {
   private main_windows = sm_4.main_windows;
 
   private references: string[] = [
-    "Bailey, R., (2019) Respiratory System and How We Breathe. Retrieved from https://www.thoughtco.com/respiratory-system-4064891",
-    "Capco, C., & Yang, G., (n.d.) You and The Natural World Biology. Third Edition. Phoenix Publishing House. ",
-    "Capco, C., (2002) Biology. Phoenix Science Series. Phoenix Publishing House.",
-    "Cennimo, D., et al, (2021) How did coronavirus outbreak start?. Medscape. Retrieved fromhttps://www.medscape.com/answers/2500114-197402/how-did-the-coronavirus-outbreak-start",
-    "Challenge 5: How does COVID-19 affect the respiratory system? (2020). Yale School of Medicine. Retrieved from https://medicine.yale.edu/coved/modules/virus/respiratory/",
-    "Elflein, J., (2021) Number of coronavirus (COVID-19) cases, recoveries, and deaths worldwide as of July 9, 2021. Statista. Retrieved from https://www.statista.com/statistics/1087466/covid19-cases-recoveries-deaths-worldwide/",
-    "Kandola, A., (2020). Coronavirus cause: Origin and how it spreads. Retrieved from https://www.medicalnewstoday.com/articles/coronavirus-causes",
-    "Lockett, E., (2019) What is a Normal Respiratory Rate for Kids and Adults? Healthline. Retrieved from https://www.healthline.com/health/normal-respiratory-rate#measuring-rate",
-    "Poster success criteria. Retrieved at https://www.pinterest.ph/pin/52284045645655178/",
-    "Zafar, A., (2020) What is a ventilator and who gets one if COVID-19 turns catastrophic in Canada?. CBSNEWS. Retrieved from https://www.cbc.ca/news/health/covid19-ventilators-1.5515550",
+    "“Non-Mendelian Inheritance” (2021) CK-12 Biology For High School. Retrieved from https://flexbooks.ck12.org/cbook/ck-12-biology-flexbook-2.0/section/3.7/primary/lesson/non-mendelian-inheritance-bio/",
+    "Miller, C., (n.d.) Non-Mendelian Inheritance. Human Biology. Thompson Rivers University. Retrieved from https://humanbiology.pressbooks.tru.ca/chapter/5-13-non-mendelian-inheritance/",
+  ];
+
+  private content_references: string[] = [
+    "http://givesimbaspridemoreattention.blogspot.com/2015/04/dog-clip-art.html",
+    "https://dr282zn36sxxg.cloudfront.net/datastreams/f-d%3A35dab30d70ef1364bfbb6a7597c130816c99e1f23e6fed45628859d1%2BIMAGE_TINY%2BIMAGE_TINY.1",
+    "https://files.mtstatic.com/site_13419/9998/0?Expires=1632362864&Signature=gEveSC-KOFZ78oORVYaq063eMgbaD09VKcYnqaYydbxrMBCDPOrVZ~s2J4IZR6nzLrvwV1ddAjeuha1HM2fXWR6gaD3CjEWA8HYLTtXWqwoc2vSO4mCFLX1fLTsfVT0tWXa3tSXNYym-qqlwJaE3R3DOaNp~pD7SWW20N4MjXoY_&Key-Pair-Id=APKAJ5Y6AV4GI7A555NA",
+    "https://i.pinimg.com/564x/59/1f/63/591f639a0d01fe2317e82718b869254a.jpg",
+    "https://lh3.googleusercontent.com/proxy/haHEWrx0Vs-CmhWybU0Oo8fez0OfolW2ISYOpayp9bDPJkcP9VaHeKTF4XlL20cWEC-3L5m1L8e0-llfG0LxF8lcNNFSYEJFfKNKRSokAOEfpQS6-xvqIi1NmYLW0HSw",
+    "https://media.istockphoto.com/vectors/cute-cartoon-cats-family-staing-together-front-view-cat-pet-friend-vector-id1028290632?s=612x612",
+    "https://www.pngkey.com/maxpic/u2w7i1i1e6i1i1e6/",
+    "https://www.thoughtco.com/thmb/7H4QFt4nGZENpqmPnXdta82S_JU=/2310x1299/smart/filters:no_upscale()/462845055-56a2b3f95f9b58b7d0cd8c15.jpg",
   ];
 
   private async getIntroVoiceOver() {

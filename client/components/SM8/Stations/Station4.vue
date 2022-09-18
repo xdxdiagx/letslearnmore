@@ -20,19 +20,40 @@
       style="width: 100%; height: 100%"
     >
       <v-window-item class="fill-height ma-0" :value="1">
-        <v-sheet height="100%" width="100%" class="transparent">
+        <v-sheet
+          height="100%"
+          width="100%"
+          class="transparent d-flex flex-column"
+        >
           <img
             height="40%"
             width="100%"
             src="~assets/img/station_4.png"
             alt="Classroom Background"
           />
-          <ContentCard
-            :content="content"
-            :contentStyle="contentStyle"
-            :elevation="0"
-            class="ma-4"
-          />
+          <v-sheet
+            :style="contentStyle"
+            class="ma-4 flex-grow-1 overflow-y-auto"
+          >
+            <ContentCard
+              :content="content"
+              :contentStyle="contentStyle"
+              :color="'transparent'"
+              :elevation="0"
+            />
+
+            <iframe
+              width="100%"
+              height="50%"
+              style="min-height: 200px"
+              src="https://www.youtube.com/embed/jWCm9piAwAU"
+              title="9-minute HIIT Workout For Beginners to Start Your Fitness Journey"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              class="pa-4"
+            ></iframe>
+          </v-sheet>
         </v-sheet>
       </v-window-item>
       <v-window-item class="fill-height pa-0 ma-0" :value="2">
@@ -164,7 +185,13 @@ export default class Station4 extends Vue {
 
   private async mounted() {
     const uid = this.$auth.currentUserId;
-    const sta4 = await this.$fire.database.ref(`sm_8/${uid}`).child("sta4");
+    let sta4: NotWellDefinedObject = {};
+    await this.$fire.database
+      .ref(`sm_8/${uid}/sta4`)
+      .get()
+      .then((ss: NotWellDefinedObject) => {
+        sta4 = ss.val();
+      });
     if (sta4 != null || sta4 != undefined) this.done = true;
   }
 

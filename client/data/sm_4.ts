@@ -356,20 +356,20 @@ export const main_windows: NotWellDefinedObject[] = [
     id: 30,
   },
   {
-    name: "AssessmentPage",
+    name: "AssessmentPage2",
     props: {
       voiceover:
         "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_4%2Fvoice_over%2Fmain%2FComics%202%20Questions%203%20and%204.wav?alt=media&token=f4c0fb2f-644c-4258-81f3-752f539f514a",
       forUploads: [
         {
-          no: "4",
+          no: "3",
           question:
             "Do you think John is the biological father of Don? Why or why not? Use Punnet square to prove your point. Take a picture of your answer and upload it in the box below.",
         },
       ],
       questions: [
         {
-          no: "3",
+          no: "4",
           question:
             "In your own words, explain why the human ABO blood group is an example of a multiple allele trait with codominance.",
         },

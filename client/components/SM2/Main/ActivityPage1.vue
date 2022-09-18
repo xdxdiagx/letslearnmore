@@ -59,6 +59,37 @@
           </p>
         </li>
       </ol>
+      <v-row no-gutters class="text-caption font-weight-bold" align="end">
+        <v-col cols="3" class="text-right pr-2 pb-1"
+          ><span>Count your pulse </span></v-col
+        >
+        <v-col cols="1" class="text-caption">
+          <v-text-field
+            hide-details
+            dense
+            color="black"
+            type="number"
+            v-model="pulseRate"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="4" class="text-center pb-1"
+          ><span> beats in 15 seconds x 4 = </span></v-col
+        >
+        <v-col cols="1" class="text-caption">
+          <v-text-field
+            readonly
+            :value="bpm"
+            hide-details
+            dense
+            color="black"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="3" class="pl-2 pb-1"><span> beats/minute</span></v-col>
+      </v-row>
+      <p class="text-caption font-italic mt-2">
+        (To get the most accurate reading, you may want to repeat a few times
+        and use the average of the three values.)
+      </p>
     </v-sheet>
 
     <audio ref="voiceover_1">
@@ -83,6 +114,8 @@ import { Component, Prop, Vue } from "nuxt-property-decorator";
 export default class ActivityPage1 extends Vue {
   @Prop() readonly objectives!: string[];
 
+  private pulseRate = 0;
+
   private voiceover1 =
     "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_2%2Fvoice_over%2Fmain%2FDirections-2021-08-19%2005_18_40.wav?alt=media&token=2a3d52c7-cb26-4978-93de-488f540df9dd";
   private voiceover2 =
@@ -103,6 +136,10 @@ export default class ActivityPage1 extends Vue {
       rounded: false,
     },
   ];
+
+  private get bpm() {
+    return this.pulseRate * 4;
+  }
 
   private mounted() {
     const voiceover_1: any = this.$refs?.voiceover_1;

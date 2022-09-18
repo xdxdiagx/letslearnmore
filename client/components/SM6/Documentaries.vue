@@ -6,6 +6,7 @@
     color="blue lighten-3"
     style="
       background-image: url('https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_6%2Fimages%2Fmain%2FDocumentaries%20Background.jpg?alt=media&token=fd636d0a-fddf-4aa2-a0f4-f56765f0ad9f');
+      background-size: cover;
     "
   >
     <v-row no-gutters style="position: relative">
@@ -83,7 +84,7 @@ export default class Documentaries extends Vue {
       alignment: "start",
     },
     {
-      title: "Extinction The Facts - Full Documentary 2020",
+      title: "Philippines Critically Endangered Species (Animals) - DENR",
       link: "https://www.youtube.com/watch?v=uZ97e7rzON8",
       alignment: "end",
     },

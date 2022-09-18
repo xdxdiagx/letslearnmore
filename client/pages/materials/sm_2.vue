@@ -129,6 +129,14 @@
           <p v-for="(r, idr) in references" :key="idr">
             {{ r }}
           </p>
+          <v-row no-gutters v-if="content_references.length > 0">
+            <span class="text-h6 black--text mb-2"
+              >Videos, Images & Sound Effect</span
+            >
+            <p class="" v-for="(cr, idr) in content_references" :key="idr">
+              {{ cr }}
+            </p>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -149,6 +157,7 @@ import ActivityPage2 from "Component/SM2/Main/ActivityPage2.vue";
 import FigureQuestion from "Component/SM2/Main/FigureQuestion.vue";
 import QuestionPage from "Component/SM2/Main/QuestionPage.vue";
 import FactsPage from "Component/SM2/FactsPage.vue";
+import IntroPage from "Component/SM2/Main/IntroPage.vue";
 
 import * as sm_2 from "@/data/sm_2";
 
@@ -167,6 +176,7 @@ import * as sm_2 from "@/data/sm_2";
     QuestionPage,
     FigureQuestion,
     FactsPage,
+    IntroPage,
   },
 })
 export default class SM2 extends Vue {
@@ -182,16 +192,27 @@ export default class SM2 extends Vue {
   private main_windows = sm_2.main_windows;
 
   private references: string[] = [
-    "Bailey, R., (2019) Respiratory System and How We Breathe. Retrieved from https://www.thoughtco.com/respiratory-system-4064891",
-    "Capco, C., & Yang, G., (n.d.) You and The Natural World Biology. Third Edition. Phoenix Publishing House. ",
-    "Capco, C., (2002) Biology. Phoenix Science Series. Phoenix Publishing House.",
-    "Cennimo, D., et al, (2021) How did coronavirus outbreak start?. Medscape. Retrieved fromhttps://www.medscape.com/answers/2500114-197402/how-did-the-coronavirus-outbreak-start",
-    "Challenge 5: How does COVID-19 affect the respiratory system? (2020). Yale School of Medicine. Retrieved from https://medicine.yale.edu/coved/modules/virus/respiratory/",
-    "Elflein, J., (2021) Number of coronavirus (COVID-19) cases, recoveries, and deaths worldwide as of July 9, 2021. Statista. Retrieved from https://www.statista.com/statistics/1087466/covid19-cases-recoveries-deaths-worldwide/",
-    "Kandola, A., (2020). Coronavirus cause: Origin and how it spreads. Retrieved from https://www.medicalnewstoday.com/articles/coronavirus-causes",
-    "Lockett, E., (2019) What is a Normal Respiratory Rate for Kids and Adults? Healthline. Retrieved from https://www.healthline.com/health/normal-respiratory-rate#measuring-rate",
-    "Poster success criteria. Retrieved at https://www.pinterest.ph/pin/52284045645655178/",
-    "Zafar, A., (2020) What is a ventilator and who gets one if COVID-19 turns catastrophic in Canada?. CBSNEWS. Retrieved from https://www.cbc.ca/news/health/covid19-ventilators-1.5515550",
+    "Beckerman, J., (2020) Your Heart Rate. WebMD. Retrieved from https://www.webmd.com/heart-disease/heart-failure/watching-rate-monitor",
+    "BYJU’S The Learning App. Difference between Heart Rate & Pulse Rate. Retrieved from https://byjus.com/biology/difference-between-heart-rate-and-pulse-rate/",
+    "Laskowski, E., (2020) What’s a normal resting heart rate? Mayo Clinic. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/fitness/expert-answers/heart-rate/faq-20057979",
+    "Pulse & Heart Rate (2018) Cleveland Clinic. Retrieved from https://my.clevelandclinic.org/health/diagnostics/17402-pulse--heart-rate",
+    "Pulse and Heart Rate (2018) Cleveland Clinic. Retrieved from https://my.clevelandclinic.org/health/diagnostics/17402-pulse--heart-rate",
+    "Smith, C., (2012) Anatomy and Physiology: The Relationship of the Respiratory System. Visible Body. Retrieved from https://www.visiblebody.com/blog/anatomy-and-physiology-the-relationships-of-the-respiratory-system",
+    "Want to check your heart rate? (2019) Harvard Health Publishing. Retrieved from https://www.health.harvard.edu/heart-health/want-to-check-your-heart-rate-heres-how",
+  ];
+
+  private content_references: string[] = [
+    "https://commons.wikimedia.org/wiki/File:Vein_art_rotating.gif",
+    "https://cursa.ihmc.us/rid=1NZ3CB70H-2B99MC1 27Q1/misura%20pressione%20sistole.gif",
+    "https://gif-magepop.blogspot.com/2014/07/heart-pumping-gif-transparent.html",
+    "https://giphy.com/stickers/selflove-reward-sukasukabee-v97SpIKrZJv6nT8sRS",
+    "https://i.pinimg.com/originals/01/c7/50/01c75001813834727654ba16286b1faa.gif",
+    "https://intl.siyavula.com/read/science/grade-9/systems-in-the-human-body/images/gr9ll02-gd-0007.png",
+    "https://novocom.top/view/ff48da-animated-clipart-talking-teacher-gif-transparent/",
+    "https://www.pinterest.co.uk/pin/326018460502224929/",
+    "https://www.pinterest.ph/pin/675188169117821472/",
+    "https://www.visiblebody.com/hubfs/learn/assets/glossary/circulatory/circulatory-system-cardiac-cycle-gif.gif",
+    "https://www.youtube.com/watch?v=CWFyxn0qDEU",
   ];
 
   private async getIntroVoiceOver() {

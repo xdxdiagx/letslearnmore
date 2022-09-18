@@ -94,7 +94,6 @@ export default class ProjectMain5 extends Vue {
     borderColor: "red",
     borderWidth: "2px",
     borderStyle: "solid",
-    backgroundColor: "transparent",
   };
 
   private async mounted() {

@@ -173,4 +173,34 @@ For your task, research four (4) species that have been saved from near extincti
     events: {},
     id: 11,
   },
+  {
+    name: "SpeciesRecovery",
+    props: {
+      voiceover:
+        "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_6%2Fvoice_over%2Fmain%2FNow%20that%20you%20already%20identify.wav?alt=media&token=f6efae86-6f26-4eca-b1da-80bacaef6d2f",
+    },
+    events: {},
+    id: 12,
+  },
+  {
+    name: "Classroom",
+    props: {
+      voiceover:
+        "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_6%2Fvoice_over%2Fmain%2FIm%20hoping%20that%20by%20watching%20the%20documentary%20video.wav?alt=media&token=84cb716c-0c03-4124-bd07-7b2a2b379b51",
+    },
+    events: {},
+    id: 13,
+  },
+  {
+    name: "ClassroomFloorPage",
+    props: {
+      voiceover:
+        "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_6%2Fvoice_over%2Fmain%2FBefore%20we%20end.wav?alt=media&token=b3a47f72-ee55-427c-b07b-efe56bd2991c",
+      withProceedBtn: false,
+      imageUrl:
+        "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fquotefancy.com%2Fmedia%2Fwallpaper%2F3840x2160%2F3261450-Loretta-Lynch-Quote-We-all-have-a-responsibility-to-protect.jpg&f=1&nofb=1",
+    },
+    events: {},
+    id: 14,
+  },
 ];

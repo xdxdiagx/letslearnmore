@@ -43,11 +43,12 @@
         </v-sheet>
       </v-sheet>
       <v-sheet
-        v-for="item in answer"
-        :key="item.no"
+        v-for="(item, ida) in answer"
+        :key="ida"
         color="transparent"
         width="100%"
         class="mb-4"
+        style="position: relative"
       >
         <p class="mb-2 d-flex">
           <span class="mr-4">{{ item.no }}.</span
@@ -61,6 +62,53 @@
           class="pa-4 overflow-y-auto"
           >{{ item.input }}</v-sheet
         >
+        <v-menu
+          v-if="answersGrade.length > 0"
+          v-show="partIndex == index && answerIndex == ida"
+          v-model="answerMenu"
+          :close-on-content-click="false"
+          :nudge-width="200"
+          offset-x
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="grey"
+              icon
+              absolute
+              bottom
+              right
+              large
+              v-bind="attrs"
+              v-on="on"
+              @click="showComment(index, ida)"
+            >
+              <v-icon>mdi-comment-text-multiple-outline</v-icon>
+            </v-btn>
+          </template>
+
+          <v-card v-if="partIndex == index && answerIndex == ida" class="pa-4">
+            <v-row no-gutters justify="space-between">
+              <span class="text-subtitle-2">Points:</span>
+              <span class="text-subtitle-2 font-weight-regular"
+                >{{ answersGrade[index][ida].grade }} points</span
+              >
+            </v-row>
+            <v-row no-gutters class="mb-2">
+              <span class="text-subtitle-2">Comments:</span>
+            </v-row>
+            <v-row no-gutters>
+              <v-sheet
+                width="100%"
+                max-height="120px"
+                rounded="lg"
+                class="pa-2 text-subtitle-2 font-weight-regular font-italic"
+                :style="sheetStyle"
+              >
+                <p class="mb-0">{{ answersGrade[index][ida].comment }}</p>
+              </v-sheet>
+            </v-row>
+          </v-card>
+        </v-menu>
       </v-sheet>
     </v-sheet>
     <v-sheet
@@ -77,7 +125,7 @@
         rounded
         :color="gradeColor"
       >
-        <h4>Grade: {{ grade }}</h4>
+        <h4>Total: {{ grade }}</h4>
       </v-sheet>
     </v-sheet>
   </v-sheet>
@@ -92,7 +140,16 @@ import { Component, Prop, Vue, Watch } from "nuxt-property-decorator";
 export default class SM3_Activity extends Vue {
   private answers: NotWellDefinedObject[] = [];
   private uploads: NotWellDefinedObject[] = [];
+  private answersGrade1: NotWellDefinedObject[] = [];
+  private answersGrade2: NotWellDefinedObject[] = [];
+  private answersGrade3: NotWellDefinedObject[] = [];
+  private answersGrade4: NotWellDefinedObject[] = [];
+  private answersGrade5: NotWellDefinedObject[] = [];
+  private answersGrade: NotWellDefinedObject[] = [];
   private sm_3: NotWellDefinedObject = {};
+  private answerMenu = false;
+  private answerIndex = 0;
+  private partIndex = 0;
 
   private async mounted() {
     const uid = this.$auth.currentUserId;
@@ -107,18 +164,37 @@ export default class SM3_Activity extends Vue {
         this.answers = this.splitIntoChunk(data.val()?.answers, 2) || [];
         console.log(this.answers);
       });
+
+    this.$fire.database
+      .ref(`grades/sm_3/${uid}`)
+      .get()
+      .then((data) => {
+        this.answersGrade1 = data.val()["1"] || [];
+        this.answersGrade2 = data.val()["2"] || [];
+        this.answersGrade3 = data.val()["3"] || [];
+        this.answersGrade4 = data.val()["4"] || [];
+        this.answersGrade5 = data.val()["5"] || [];
+        this.answersGrade = [
+          this.answersGrade1,
+          this.answersGrade2,
+          this.answersGrade3,
+          this.answersGrade4,
+          this.answersGrade5,
+        ];
+        console.log(this.answersGrade);
+      });
   }
 
   private get grade() {
     if (this.sm_3.grade == 0) return "Not yet graded";
-    else return `${Math.ceil(this.sm_3.grade)}%`;
+    else return `${this.sm_3.grade} points`;
   }
 
   private get gradeColor() {
     if (this.sm_3.grade == 0) return "";
-    if (this.sm_3.grade <= 50) return "amber";
-    if (this.sm_3.grade <= 75) return "yellow";
-    if (this.sm_3.grade <= 85) return "light-green";
+    if (this.sm_3.grade <= 2) return "amber";
+    if (this.sm_3.grade <= 3) return "yellow";
+    if (this.sm_3.grade <= 4) return "light-green";
     else return "green";
   }
 
@@ -131,6 +207,12 @@ export default class SM3_Activity extends Vue {
     }
 
     return res;
+  }
+
+  private showComment(part: number, index: number) {
+    console.log({ part, index });
+    this.partIndex = part;
+    this.answerIndex = index;
   }
 
   private goBack() {

@@ -15,7 +15,7 @@
   >
     <v-sheet
       v-if="uploadProgress == 0"
-      class="d-flex flex-column justify-center align-center pa-4"
+      class="d-flex flex-column justify-center align-center"
     >
       <v-icon x-large color="grey">mdi-cloud-upload-outline</v-icon>
       <span class="mb-1 text-subtitle-2 grey--text">Drop your file here</span>

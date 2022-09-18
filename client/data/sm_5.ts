@@ -21,7 +21,7 @@ export const windows: NotWellDefinedObject[] = [
     id: 2,
   },
   {
-    name: "Classroom",
+    name: "PunnettDescription",
     props: {
       voiceover: "",
     },

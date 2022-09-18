@@ -34,12 +34,7 @@ const nuxtConfig = {
   ],
 
   components: {
-    dirs: [
-      "~/components",
-      "~/components/App",
-      "~/components/Dashboard",
-      "~/components/Global",
-    ],
+    dirs: ["~/components", "~/components/App", "~/components/Global"],
   },
 
   alias: {
@@ -67,6 +62,12 @@ const nuxtConfig = {
   pwa: {
     manifest: {
       lang: "en",
+      name: "Let's Learn More",
+      short_name: "Let's Learn More",
+    },
+    meta: {
+      title: "Let's Learn More",
+      author: "Phi",
     },
   },
 

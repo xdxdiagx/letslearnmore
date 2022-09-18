@@ -120,7 +120,7 @@
         rounded
         :color="gradeColor"
       >
-        <h4>Grade: {{ grade }}</h4>
+        <h4>Total: {{ grade }}</h4>
       </v-sheet>
     </v-sheet>
   </v-sheet>
@@ -173,14 +173,14 @@ export default class SM8_Activity extends Vue {
 
   private get grade() {
     if (this.sm_8.grade == 0) return "Not yet graded";
-    else return `${Math.ceil(this.sm_8.grade)}%`;
+    else return `${this.sm_8.grade} points`;
   }
 
   private get gradeColor() {
     if (this.sm_8.grade == 0) return "";
-    if (this.sm_8.grade <= 50) return "amber";
-    if (this.sm_8.grade <= 75) return "yellow";
-    if (this.sm_8.grade <= 85) return "light-green";
+    if (this.sm_8.grade <= 2) return "amber";
+    if (this.sm_8.grade <= 3) return "yellow";
+    if (this.sm_8.grade <= 4) return "light-green";
     else return "green";
   }
 

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-row class="fill-height" justify="start" align="start">
+    <v-row class="fill-height" justify="center" align="center">
       <v-col cols="12" sm="6" md="4" class="px-10">
         <v-sheet width="100%" class="d-flex justify-center align-center mb-4">
           <img

@@ -130,6 +130,14 @@
           <p v-for="(r, idr) in references" :key="idr">
             {{ r }}
           </p>
+          <v-row no-gutters v-if="content_references.length > 0">
+            <span class="text-h6 black--text mb-2"
+              >Videos, Images & Sound Effect</span
+            >
+            <p class="" v-for="(cr, idr) in content_references" :key="idr">
+              {{ cr }}
+            </p>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -185,6 +193,23 @@ export default class SM1 extends Vue {
     "Lockett, E., (2019) What is a Normal Respiratory Rate for Kids and Adults? Healthline. Retrieved from https://www.healthline.com/health/normal-respiratory-rate#measuring-rate",
     "Poster success criteria. Retrieved at https://www.pinterest.ph/pin/52284045645655178/",
     "Zafar, A., (2020) What is a ventilator and who gets one if COVID-19 turns catastrophic in Canada?. CBSNEWS. Retrieved from https://www.cbc.ca/news/health/covid19-ventilators-1.5515550",
+  ];
+
+  private content_references: string[] = [
+    "https://catimes.brightspotcdn.com/dims4/default/8735145/2147483647/strip/true/crop/600x338+0+0/resize/840x473!/format/webp/quality/90/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F47%2F7e%2Fb537393e4060861fdd09936f3f92%2Fsd-photos-handouts-2sars-cov-2-video.gif",
+    "https://d2jx2rerrg6sh3.cloudfront.net/image-handler/ts/20201105090042/ri/1200/picture/2020/11/shutterstock_1707538084_(1).jpg",
+    "https://i0.wp.com/hdsmileys.com/wp-content/uploads/2017/10/brown-and-cony-saying-good-job.gif",
+    "https://in.pinterest.com/pin/683491680951246537/",
+    "https://makeagif.com/i/2Ehzy7",
+    "https://mixkit.co/free-sound-effects/intro/",
+    "https://tenor.com/view/man-talking-speaking-standing-up-animated-gif-17213205",
+    "https://www.istockphoto.com/vector/the-respiratory-tract-medical-vector-illustration-on-white-background-gm1142652159-306576569",
+    "https://www.pinterest.ph/pin/675188169117821472/",
+    "https://www.thoughtco.com/respiratory-system-4064891",
+    "https://www.youtube.com/watch?v=5DGwOJXSxqg",
+    "https://www.youtube.com/watch?v=-7NGWR8Yy4I",
+    "https://www.youtube.com/watch?v=dkAe4DjHwMM&t=5s",
+    "https://www.youtube.com/watch?v=PSnSo9kYlH4",
   ];
 
   private async getIntroVoiceOver() {

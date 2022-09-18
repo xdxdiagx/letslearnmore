@@ -159,7 +159,13 @@ export default class Station2 extends Vue {
 
   private async mounted() {
     const uid = this.$auth.currentUserId;
-    const sta2 = await this.$fire.database.ref(`sm_8/${uid}`).child("sta2");
+    let sta2: NotWellDefinedObject = {};
+    await this.$fire.database
+      .ref(`sm_8/${uid}/sta2`)
+      .get()
+      .then((ss: NotWellDefinedObject) => {
+        sta2 = ss.val();
+      });
     if (sta2 != null || sta2 != undefined) this.done = true;
   }
 

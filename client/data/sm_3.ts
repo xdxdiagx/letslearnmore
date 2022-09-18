@@ -12,7 +12,7 @@ export const windows: NotWellDefinedObject[] = [
     props: {
       voiceover: "",
       description:
-        "Your Respiratory and Circulatory system works together to circulate the blood and oxygen throughout your body. However, once disease occurs, it may affect the bodily functions. These can be hereditary and acquired. Lifestyle choices strongly affect your Respiratory and Circulatory system. Smoking, lack of exercise, excessive weight, long-term stress, and a diet low in fruits and vegetables but high in saturates fats are all linked to an increase of developing diseases.",
+        "Your Respiratory and Circulatory systems work together to circulate the blood and oxygen throughout your body. However, once disease occurs, it may affect the bodily functions. These can be hereditary and acquired. Lifestyle choices strongly affect your Respiratory and Circulatory system. Smoking, lack of exercise, excessive weight, long-term stress, and a diet low in fruits and vegetables but high in saturates fats are all linked to an increase of developing diseases.",
     },
     events: {},
     id: 2,

@@ -79,6 +79,28 @@ export class UserPlugin {
 
     return this.user;
   }
+
+  async enrollStudent(email: string, password: string, userData: Account) {
+    this.$authFire
+      .createUserWithEmailAndPassword(email, password)
+      .then((credential: NotWellDefinedObject) => {
+        var user = credential.user;
+        if (user) {
+          this.$databaseFire
+            .ref(`enrollees/${user.uid}`)
+            .set(userData, (error: NotWellDefinedObject) => {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log("Successfully enrolled student-" + user.uid);
+              }
+            });
+        }
+      })
+      .catch((error: NotWellDefinedObject) => {
+        console.error(error);
+      });
+  }
 }
 
 const userPlugin: Plugin = function (context, inject) {

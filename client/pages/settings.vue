@@ -8,14 +8,9 @@
     <v-divider></v-divider>
     <v-card class="mt-4">
       <v-tabs centered>
-        <v-tab class="text-capitalize">
-          <v-icon left> mdi-clipboard-text </v-icon>
-          Topics
-        </v-tab>
-        <v-tab class="text-capitalize">
-          <v-icon left> mdi-account-group </v-icon>
-          Students
-        </v-tab>
+        <v-tab class="text-capitalize"> Topics </v-tab>
+        <v-tab class="text-capitalize"> Students </v-tab>
+        <v-tab class="text-capitalize"> Enrollees </v-tab>
 
         <v-tab-item>
           <v-list class="pa-0">
@@ -53,7 +48,7 @@
           </v-row>
           <v-list two-line class="pa-0">
             <v-list-item v-for="student in students" :key="student.key">
-              <v-list-item-avatar>
+              <v-list-item-avatar size="36">
                 <v-icon class="grey lighten-1" dark> mdi-account </v-icon>
               </v-list-item-avatar>
 
@@ -69,6 +64,30 @@
               <v-list-item-action>
                 <v-btn icon :to="`/profile/${student.key}`">
                   <v-icon color="grey lighten-1">mdi-information</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list>
+        </v-tab-item>
+        <v-tab-item>
+          <v-list two-line class="pa-0">
+            <v-list-item v-for="student in enrollees" :key="student.key">
+              <v-list-item-avatar size="36">
+                <v-icon class="grey lighten-1" dark> mdi-account </v-icon>
+              </v-list-item-avatar>
+
+              <v-list-item-content>
+                <v-list-item-title
+                  >{{ student.firstName }}
+                  {{ student.lastName }}</v-list-item-title
+                >
+
+                <v-list-item-subtitle>Section 1</v-list-item-subtitle>
+              </v-list-item-content>
+
+              <v-list-item-action>
+                <v-btn icon @click="acceptStudent(student)">
+                  <v-icon color="primary">mdi-check-circle</v-icon>
                 </v-btn>
               </v-list-item-action>
             </v-list-item>
@@ -90,6 +109,7 @@
               <v-col cols="12" sm="6" class="mb-2 pr-sm-1">
                 <v-text-field
                   v-model="fields.firstName"
+                  :readonly="enrollee"
                   label="First name*"
                   :rules="[rules.required]"
                   :error="fieldError"
@@ -101,6 +121,7 @@
               <v-col cols="12" sm="6" class="mb-2 pl-sm-1">
                 <v-text-field
                   v-model="fields.lastName"
+                  :readonly="enrollee"
                   label="Last name*"
                   :rules="[rules.required]"
                   :error="fieldError"
@@ -112,6 +133,7 @@
               <v-col cols="12" class="mb-2">
                 <v-text-field
                   v-model="fields.email"
+                  :readonly="enrollee"
                   label="Email*"
                   :rules="[rules.required, rules.email]"
                   :error="fieldError"
@@ -123,6 +145,7 @@
               <v-col cols="12" class="mb-2">
                 <v-select
                   v-model="fields.section"
+                  :readonly="enrollee"
                   :items="[1, 2]"
                   :rules="[rules.required]"
                   outlined
@@ -134,6 +157,7 @@
               <v-col cols="12" class="mb-2">
                 <v-text-field
                   v-model="fields.password"
+                  :readonly="enrollee"
                   label="Password*"
                   :rules="[rules.required]"
                   :error="fieldError"
@@ -172,6 +196,7 @@
               <v-col cols="5" class="mb-2 pl-1">
                 <v-select
                   v-model="fields.gender"
+                  :readonly="enrollee"
                   :items="['Male', 'Female']"
                   :rules="[rules.required]"
                   outlined
@@ -197,7 +222,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
-import { Account } from "~/types/account";
 @Component({
   layout: "default",
 })
@@ -206,13 +230,15 @@ export default class Settings extends Vue {
   private showModal = false;
   private datePicker = false;
   private fieldError = false;
+  private enrollee = false;
   private students: NotWellDefinedObject[] = [];
+  private enrollees: NotWellDefinedObject[] = [];
   private rules: NotWellDefinedObject = {
     required: (v: string) => !!v || "Required.",
     email: (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
   };
 
-  private fields: Account = {
+  private fields: NotWellDefinedObject = {
     firstName: "",
     lastName: "",
     birthdate: new Date().toISOString().substr(0, 10),
@@ -239,6 +265,12 @@ export default class Settings extends Vue {
       });
   }
 
+  private async getAllEnrollees() {
+    this.$fire.database.ref("enrollees").once("value", (ss) => {
+      this.enrollees = this.snapshotToArray(ss);
+    });
+  }
+
   private async addStudent() {
     try {
       if (
@@ -247,7 +279,7 @@ export default class Settings extends Vue {
         this.fields.firstName != "" &&
         this.fields.lastName != ""
       ) {
-        const userData: Account = {
+        const userData: NotWellDefinedObject = {
           firstName: this.fields.firstName,
           lastName: this.fields.lastName,
           email: this.fields.email,
@@ -256,11 +288,19 @@ export default class Settings extends Vue {
           role: this.fields.role,
           section: this.fields.section,
         };
-        await this.$auth.createUser(
-          this.fields.email,
-          this.fields.password,
-          userData
-        );
+        if (this.enrollee == false) {
+          await this.$auth.createUser(
+            this.fields.email,
+            this.fields.password,
+            userData
+          );
+        } else {
+          this.$fire.database.ref("enrollees").child(this.fields.key).remove();
+          this.$fire.database.ref("users").child(this.fields.key).set(userData);
+          this.enrollee = false;
+          this.getAllEnrollees();
+          this.getAllStudents();
+        }
         this.showModal = false;
         this.resetFields();
       } else {
@@ -269,6 +309,12 @@ export default class Settings extends Vue {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  private acceptStudent(student: NotWellDefinedObject) {
+    this.fields = student;
+    this.showModal = true;
+    this.enrollee = true;
   }
 
   private resetFields() {
@@ -306,6 +352,7 @@ export default class Settings extends Vue {
   private async created() {
     await this.getAllTopics();
     await this.getAllStudents();
+    await this.getAllEnrollees();
   }
 }
 </script>

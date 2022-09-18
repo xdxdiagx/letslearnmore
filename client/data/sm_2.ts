@@ -107,7 +107,7 @@ export const windows: NotWellDefinedObject[] = [
     props: {
       voiceover: "",
       content:
-        "Your Respiratory System and Circulatory Systems work closely together to maintain homeostasis in the face of constant change. Every time you exercise, lie down to rest, or simply stand up, you change your needs for oxygen and nutrients. As a result, your heart speeds up or slows down and you breathe faster or slower, depending on your activity.",
+        "Your Respiratory System and Circulatory System work closely together to maintain homeostasis in the face of constant change. Every time you exercise, lie down to rest, or simply stand up, you change your needs for oxygen and nutrients. As a result, your heart speeds up or slows down and you breathe faster or slower, depending on your activity.",
       withProceedBtn: true,
       contentStyle: {
         position: "absolute",
@@ -128,7 +128,7 @@ export const windows: NotWellDefinedObject[] = [
 
 export const main_windows: NotWellDefinedObject[] = [
   {
-    name: "Classroom",
+    name: "IntroPage",
     props: {
       voiceover: "",
     },

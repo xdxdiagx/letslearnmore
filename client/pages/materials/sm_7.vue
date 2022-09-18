@@ -129,6 +129,12 @@
           <p v-for="(r, idr) in references" :key="idr">
             {{ r }}
           </p>
+          <v-row no-gutters v-if="content_references.length > 0">
+            <span class="text-h6 black--text mb-2">Images</span>
+            <p class="" v-for="(cr, idr) in content_references" :key="idr">
+              {{ cr }}
+            </p>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -141,6 +147,8 @@ import Classroom from "Component/Global/Classroom.vue";
 import ObjectivePage from "Component/Global/ObjectivePage.vue";
 import Accordion from "Component/SM7/Accordion.vue";
 import MainPage from "Component/SM7/MainPage.vue";
+import MainIntro from "Component/SM7/MainIntro.vue";
+import AccordionIntro from "Component/SM7/AccordionIntro.vue";
 import IntroPage from "Component/SM7/ResearchProject/IntroPage.vue";
 import InstructionsPage from "Component/SM7/ResearchProject/Instructions.vue";
 import Rubrics from "Component/SM7/ResearchProject/Rubrics.vue";
@@ -159,6 +167,8 @@ import * as sm_7 from "@/data/sm_7";
     ObjectivePage,
     Accordion,
     MainPage,
+    MainIntro,
+    AccordionIntro,
     IntroPage,
     InstructionsPage,
     Rubrics,
@@ -182,23 +192,66 @@ export default class SM7 extends Vue {
   private main_windows = sm_7.main_windows;
 
   private references: string[] = [
-    "“Pedigree” (n.d.) National Human Genome Research Institute. Retrieved from https://www.genome.gov/genetics-glossary/Pedigree",
-    "“Punnett Square” (n.d.) Biology online. Retrieved from https://www.biologyonline.com/dictionary/punnett-square",
-    "4f54-8e8d-0a43f06fff39.png",
-    "http://userscontent2.emaze.com/images/858757b9-aa71-475e-8cce-ffbf8eddf115/f78a1167-bd57-",
-    "http://www.clipartpanda.com/clipart_images/number-one-red-clip-art-59236123",
-    "https://cdn.britannica.com/w:400,h:300,c:crop/73/72173-004-87D1E1BB/hemophilia-pedigree-chart-inheritance-trait-generations-gene.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk7EtgLQxlkSOkVJlUcWcDns5-JjgFgn4ri1XIFgb6fvFPshhkM6fJNxTpWS3mvB7_exA&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrzWq7XoqIwzYjgEl7PhA4Rucc46AleMQ0T-0iTZD39XSWidxu-cJzx4ergAjOL4a78pI&usqp=CAU",
-    "https://i.gifer.com/origin/d7/d7ac4f38b77abe73165d85edf2cbdb9e_w200.gif",
-    "https://images.squarespace-cdn.com/content/v1/5bbbc5669b7d1566ffe45ea0/1589725665001-SB3KVEE71W8ARUYHDTZL/boom+cards+boom+learning+free+decks?format=1000w",
-    "https://mcmscache.epapr.in/post_images/website_350/post_15669903/thumb.jpg",
-    "https://pilbox.themuse.com/image.jpg?url=https%3A%2F%2Fassets.themuse.com%2Fuploaded%2Fattachments%2F13240.jpg%3Fv%3Dfc25c5c63f9affc57a40c69dfc128dcfd6b8d9d710f8b8df896a9738d6d2274a&prog=1&w=780",
-    "https://st2.depositphotos.com/5644252/8749/v/950/depositphotos_87498430-stock-illustration-my-family-vetor.jpg",
-    "https://thumbs.gfycat.com/ElatedBrownBaboon-max-1mb.gif",
-    "https://www.clipartmax.com/middle/m2K9A0m2m2b1i8Z5_cartoon-number-two-two-cartoon-png/",
-    "Nickle, T., & Barrette- Ng (2020) Pedigree Analysis. Biology LibreTexts. Retrieved from https://bio.libretexts.org/Bookshelves/Genetics/Book%3A_Online_Open_Genetics_(Nickle_and_Barrette-Ng)/05%3A_Pedigrees_and_Populations/5.02%3A_Pedigree_Analysis",
-    "Phelan, J., (2013) Punnett square. Science Direct. Retrieved from https://www.sciencedirect.com/topics/biochemistry-genetics-and-molecular-biology/punnett-square",
+    "Capco, C. & Yang, G. (n.d.) You and The Natural World Biology. Third Edition. Phoenix Publishing House",
+    "Craggs, G., (2016) Photosynthesis and its Role in Climate Change and Soil Regeneration. Future Directions International. Retrieved from https://www.futuredirections.org.au/publication/photosynthesis-role-climate-change-soil-regeneration/",
+    "Brenner, L., (2019) Why Is Photosynthesis Important for All Organisms? Retrieved from https://sciencing.com/photosynthesis-important-organisms-6389083.html",
+    "Cook, B., (2013) The important role of photosynthesis. Michigan State University. Retrieved from https://www.canr.msu.edu/news/the_important_role_of_photosynthesis",
+    "Gust, D., (n.d.) Why Study Photosynthesis. Center for Bioenergy & Photosynthesis. Center for Bioenergy & Photosynthesis. Arizona State University. Retrieved from https://live-bioenergy.ws.asu.edu/content/why-study-photosynthesis",
+    "“Photosynthesis Cells” (n.d.) Scitable by Nature Education. Retrieved from https://www.nature.com/scitable/topicpage/photosynthetic-cells-14025371/",
+    "Cottingham, K. (2013) The Medical Bond: Using photosynthesis to make medicines and other useful substances. Retrieved from https://communities.acs.org/t5/Science-News/The-Medical-Bond-Using-photosynthesis-to-make-medicines-and/ba-p/14938",
+    "Photosynthesis: How Is It Important to Medicine? HASPI Medical Biology Lab 06. Retrieved from file:///E:/THESIS-%20FINAL/06a_photosynthesis___medicine.pdf",
+    "Jones, C., (n.d.) Soil restoration: 5 core principles. Retrieved from https://www.ecofarmingdaily.com/build-soil/soil-restoration-5-core-principles/",
+    "Soil Health. National Agroforestry Center U.S. Department of Agriculture. Retrieved from https://www.fs.usda.gov/nac/topics/soil-health.php",
+    "Fox, S., (2010) Surprise! Even Plants Can Contribute to Global Warming. Live Science. Retrieved from https://www.livescience.com/6429-surprise-plants-contribute-global-warming.html",
+    "Runwal, P., (2021) Plants Buy Us Time to Slow Climate Change – But Not Enough to Stop It. News Center Barkeley Lab. Retrieved from https://newscenter.lbl.gov/2021/12/08/plants-buy-us-time-to-slow-climate-change-but-not-enough-to-stop-it/",
+    "“Photosynthesis”, (n.d.) Understanding Global Change. Retrieved from https://ugc.berkeley.edu/background-content/photosynthesis/",
+    "ReadWriteThink,(2006).Travel Brochure Rubrics. Retrieved from https://devlegalsimpli.blob.core.windows.net/pdfseoforms/pdf-20180219t134432z-001/pdf/travel-brochure-rubric.pdf?sv=2018-03-28&si=readpolicy&sr=c&sig=MXHnWmn0sXNXztiU%2Bugk2d7DV7KBCOuXF3oBMx0EeEw%3D",
+  ];
+
+  private content_references: string[] = [
+    "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/0bb90f65889151.5b03f02cd52bd.jpg",
+    "https://www.microbiota-site.com/images/2020/vrac/Leaf_in_sunlight-1.jpg",
+    "https://www.merlot.org/merlot/getMaterialImage.htm?id=773310947",
+    "https://image.freepik.com/free-vector/tiny-scientist-male-character-looking-green-leaf-through-huge-magnifying-glass-sun-shining-plant-sunlight-changing-into-chemical-energy-during-photosynthesis-cartoon-vector-illustration_87771-11918.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRnbHZ6tAOBq_p1tyOWYiB6kJP4L6p_hZAAA&usqp=CAU",
+    "https://cdn11.bigcommerce.com/s-v5lcc6/product_images/uploaded_images/bio-p-cel-y11-12-9-img1h.jpeg",
+    "https://www.microbiota-site.com/images/2020/vrac/Leaf_in_sunlight-1.jpg",
+    "https://www.thestudypath.com/wp-content/uploads/2021/04/Important-Questions-for-Class-7-Science-Chapter-1-Nutrition-in-Plants-image-3.png",
+    "https://oilprice.com/Energy/Energy-General/Artificial-Photosynthesis-A-New-Renewable-Energy-Source.html",
+    "https://media.springernature.com/original/springer-static/image/chp%3A10.1007%2F978-1-4419-0194-1_9/MediaObjects/978-1-4419-0194-1_9_Fig5_HTML.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzDfEmXkMHDyT4tctMwIs_c06217sJylMvTQ&usqp=CAU",
+    "https://blog.sciencemuseum.org.uk/wp-content/uploads/2017/12/T1-e1513687947112-1024x969.jpg",
+    "https://blog.sciencemuseum.org.uk/wp-content/uploads/2017/12/Credit-Bart-van-Overbeeke-2.jpg",
+    "https://static.wixstatic.com/media/8749e1_4aa9a36aaaa94b12bf20f7484ea94c27~mv2.png/v1/fill/w_740,h_417,al_c,lg_1,q_95/8749e1_4aa9a36aaaa94b12bf20f7484ea94c27~mv2.webp",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3mYR0GIhU3urY2zLiBYQBMxQAb-BNJqhCTUevV_efPKHDgbTgb3nCCfk3FucnUBeJhMc&usqp=CAU",
+    "https://www.topriseglobal.com/wp-content/uploads/2021/12/people-eating-at-table.jpg",
+    "https://static.wixstatic.com/media/8749e1_4aa9a36aaaa94b12bf20f7484ea94c27~mv2.png/v1/fill/w_740,h_417,al_c,lg_1,q_95/8749e1_4aa9a36aaaa94b12bf20f7484ea94c27~mv2.webp",
+    "https://image.slidesharecdn.com/rahanappt-170328082425/95/medicinal-plants-1-638.jpg?cb=1490689735",
+    "https://cdn.britannica.com/78/148078-050-79D05CB8/Coal-power-plant-Wyoming-Rock-Springs.jpg",
+    "https://bloximages.chicago2.vip.townnews.com/iowastatedaily.com/content/tncms/assets/v3/editorial/f/86/f86fc6a8-5c87-11e3-874d-0019bb2963f4/529e927877d92.image.jpg?resize=400%2C400",
+    "https://media.visualstories.com/images/18/465812/640-106474479-types-of-fossil-fuels.jpg",
+    "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/30/2012/09/vegetables-and-fruits-farmers-market.jpg",
+    "https://cdn.britannica.com/11/196511-050-F63E85DD/man-ingredients-apothecary-Asian.jpg?w=690&h=388&c=crop",
+    "https://post.healthline.com/wp-content/uploads/2019/11/Ayurvedic-herb-herb-turmeric-indian-spices-732x549-thumbnail.jpg",
+    "https://static.practicalpainmanagement.com/sites/default/files/imagecache/inline-image/images/2015/09/14/18593722_XL.jpg",
+    "https://img2.asiancancer.com/uploads/allimg/2016/08/16/2-093931701.jpg",
+    "https://farmingfirst.org/wordpress/wp-content/uploads/2018/04/IFDC-header.jpghttp://www.biotechclear.com/content/science/images/products/soil-01.jpg",
+    "https://feeco.com/wp-content/uploads/2018/07/Soil-Amendments-and-Conditioners.jpg",
+    "https://woodfordia.org/wp-content/uploads/2018/09/UNADJUSTEDNONRAW_thumb_735_600.jpg",
+    "https://i2.wp.com/crestoneeagle.com/wp-content/uploads/2020/01/carbon-farming-cycle-slider.jpg?resize=960%2C350&ssl=1",
+    "https://images.theconversation.com/files/313841/original/file-20200205-149789-ahxxv8.png?ixlib=rb-1.1.0&q=45&auto=format&w=1000&fit=clip",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQCdmUZlf8V1p8pA5eW2bm-Pe056OVxN8gR10HgCwYOSkhlgfhzi6D2MNSPlT7EqaTADU&usqp=CAU",
+    "https://www.zurich.com/-/media/project/zurich/dotcom/media/magazine/2021/images/stage-how-soil-supports-life-on-earth.jpg?h=1250&iar=0&w=2500&rev=5aed8e940e614667a46140800daf430c&hash=D085CE62C15CE894E7405939F85A1429",
+    "http://2.bp.blogspot.com/--GNmi1oB40o/UVBmhU6tpWI/AAAAAAAAAII/f41C3C_Y_7g/s1600/dirt_soil_lg.jpg",
+    "https://myschoolpedia.co.in/wp-content/uploads/2021/06/Carbon-Cycle-Diagram.jpg",
+    "https://scx1.b-cdn.net/csz/news/800a/2016/burningallkn.jpg",
+    "https://miro.medium.com/max/1200/1*PmIg4r3YL_PAgiLNVSb4FA@2x.jpeg",
+    "https://www.americanoceans.org/wp-content/uploads/2021/02/fullsizeoutput_227.jpeg",
+    "https://s3-us-west-2.amazonaws.com/courses-images/wp-content/uploads/sites/110/2016/05/03201853/Figure_08_01_03.jpg",
+    "https://qph.fs.quoracdn.net/main-qimg-7a4da72243b1b5f2f68fa650767c7d72",
+    "https://bsmedia.business-standard.com/_media/bs/img/article/2020-09/16/full/1600230954-8316.jpg",
+    "https://64.media.tumblr.com/6ccf7ce5c3265988c301d087bfbc3d70/tumblr_nkrsegqgeD1rl35vno1_500.jpg",
+    "https://www.pngall.com/wp-content/uploads/9/Coconut-Tree-Vector.png",
   ];
 
   private get introWindows() {

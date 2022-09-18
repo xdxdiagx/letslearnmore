@@ -34,12 +34,54 @@ export const windows: NotWellDefinedObject[] = [
 
 export const main_windows: NotWellDefinedObject[] = [
   {
-    name: "Classroom",
-    props: {
-      voiceover: "",
-    },
+    name: "AccordionIntro",
+    props: {},
     events: {},
     id: 1,
+  },
+  {
+    name: "MainIntro",
+    props: {},
+    events: {},
+    id: 2,
+  },
+  {
+    name: "MainPage",
+    props: {
+      voiceover: "",
+      pageTitle: "Important Role of Photosynthesis",
+      rows: [
+        {
+          columns: [
+            {
+              cols: 12,
+              name: "ContentCard",
+              props: {
+                content: `The process of photosynthesis transformed life on Earth. By harnessing energy from the sun, photosynthesis evolved to allow living things access to enormous amounts of energy. Photosynthesis gave living things enough power to build new structures and achieve the biodiversity visible today.`,
+                contentStyle: {
+                  width: "100%",
+                  height: "auto",
+                  backgroundColor: "transparent",
+                },
+              },
+            },
+            {
+              cols: 12,
+              sm: 6,
+              alignment: "stretch",
+              name: "ImageContainer",
+              props: {
+                src: "https://firebasestorage.googleapis.com/v0/b/letslearnmore-ce0b9.appspot.com/o/sm_7%2Fimages%2FImportant%20role%20of%20Photosynthesis.png?alt=media&token=3391ed51-d86f-47f5-a4ac-578592194589",
+                width: "100%",
+                height: "100%",
+              },
+            },
+          ],
+        },
+      ],
+    },
+    events: {},
+    id: 3,
   },
   {
     name: "MainPage",

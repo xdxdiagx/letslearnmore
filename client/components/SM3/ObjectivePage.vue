@@ -41,7 +41,7 @@ export default class ObjectivePage extends Vue {
   @Prop() readonly voiceover!: string;
 
   private objectives: string[] = [
-    "Analyze critically how lifestyle and environments affects your circulatory and respiratory system.",
+    "Analyze critically how lifestyle and environments affect your circulatory and respiratory system.",
     "Provide research/scientific data about the related diseases.",
     "Cite ways on how to keep your respiratory and circulatory system healthy.",
   ];

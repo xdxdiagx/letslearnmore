@@ -145,6 +145,7 @@ import ObjectivePage from "Component/Global/ObjectivePage.vue";
 import IntroPage from "Component/SM5/IntroPage.vue";
 import IntroBoom from "Component/SM5/IntroBoom.vue";
 import TreasureBoom from "Component/SM5/TreasureBoom.vue";
+import PunnettDescription from "Component/SM5/PunnettDescription.vue";
 
 import * as sm_5 from "@/data/sm_5";
 
@@ -158,6 +159,7 @@ import * as sm_5 from "@/data/sm_5";
     IntroPage,
     IntroBoom,
     TreasureBoom,
+    PunnettDescription,
   },
 })
 export default class SM4 extends Vue {

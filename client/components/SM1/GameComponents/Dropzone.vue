@@ -1,6 +1,8 @@
 <template>
   <v-sheet
-    width="130px"
+    max-width="130px"
+    min-width="100px"
+    width="35%"
     height="45px"
     outlined
     rounded="lg"
@@ -12,18 +14,33 @@
     @dragover.prevent
     @dragenter.prevent
   >
-    <v-card
-      v-if="dropAns"
-      class="text-center"
-      color="yellow "
-      width="120px"
-      height="38px"
-      elevation="1"
+    <v-sheet
+      width="100%"
+      height="100%"
+      color="transparent"
+      class="d-flex justify-center align-center"
     >
-      <v-card-text class="pa-2">
-        <span class="text-subtitle-2 black--text">{{ answer }}</span>
-      </v-card-text>
-    </v-card>
+      <v-sheet
+        width="10px"
+        height="10px"
+        rounded="circle"
+        color="success"
+        :class="[leftPointer ? 'left-pointer' : 'right-pointer']"
+      >
+      </v-sheet>
+      <v-card
+        v-if="dropAns"
+        class="text-center"
+        color="yellow "
+        width="120px"
+        height="38px"
+        elevation="1"
+      >
+        <v-card-text class="pa-2">
+          <span class="text-subtitle-2 black--text">{{ answer }}</span>
+        </v-card-text>
+      </v-card>
+    </v-sheet>
   </v-sheet>
 </template>
 
@@ -34,6 +51,7 @@ import { Component, Prop, Vue } from "nuxt-property-decorator";
 export default class DropZone extends Vue {
   @Prop() readonly position!: NotWellDefinedObject;
   @Prop() readonly correctAns!: string;
+  @Prop({ default: true }) readonly leftPointer!: boolean;
 
   private dropAns = false;
   private answer = "";
@@ -69,5 +87,19 @@ export default class DropZone extends Vue {
 
 .wrong {
   border: 2px solid #ef5350;
+}
+
+.left-pointer {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.right-pointer {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%);
 }
 </style>

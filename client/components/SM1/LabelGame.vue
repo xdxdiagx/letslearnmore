@@ -27,28 +27,12 @@
         />
       </v-col>
     </v-row>
-    <!-- <v-row no-gutters justify="center" class="pa-1">
-      <v-col
-        cols="4"
-        class="pa-1"
-        v-for="choice in choices"
-        :key="choice"
-        draggable
-        @dragstart="startDrag($event, choice)"
-        v-touch:start="touchStart"
-      >
-        <v-card class="text-center" color="yellow" style="cursor: pointer">
-          <v-card-text class="pa-2">
-            <span class="text-subtitle-2 black--text">{{ choice }}</span>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row> -->
     <DropZone
       v-for="zone in dropZones"
       :key="zone.correctAns"
       :position="zone.position"
       :correctAns="zone.correctAns"
+      :leftPointer="zone.leftPointer"
       v-on:correctAnswer="onCorrectAnswer"
     />
 
@@ -130,6 +114,7 @@ export default class LabelGame extends Vue {
         left: 10,
       },
       correctAns: "Nasal Cavity",
+      leftPointer: false,
     },
     {
       position: {
@@ -137,6 +122,7 @@ export default class LabelGame extends Vue {
         left: 170,
       },
       correctAns: "Pharynx",
+      leftPointer: true,
     },
     {
       position: {
@@ -144,6 +130,7 @@ export default class LabelGame extends Vue {
         left: 70,
       },
       correctAns: "Larynx",
+      leftPointer: false,
     },
     {
       position: {
@@ -151,13 +138,15 @@ export default class LabelGame extends Vue {
         left: 170,
       },
       correctAns: "Trachea",
+      leftPointer: true,
     },
     {
       position: {
-        top: 270,
-        left: 70,
+        top: 290,
+        left: 60,
       },
       correctAns: "Bronchi",
+      leftPointer: false,
     },
     {
       position: {
@@ -165,13 +154,15 @@ export default class LabelGame extends Vue {
         left: 238,
       },
       correctAns: "Pleura",
+      leftPointer: true,
     },
     {
       position: {
-        top: 320,
-        left: 30,
+        top: 340,
+        left: 10,
       },
       correctAns: "Lungs",
+      leftPointer: false,
     },
     {
       position: {
@@ -179,20 +170,23 @@ export default class LabelGame extends Vue {
         left: 238,
       },
       correctAns: "Bronchioles",
+      leftPointer: true,
     },
     {
       position: {
-        top: 420,
-        left: 30,
+        top: 400,
+        left: 20,
       },
       correctAns: "Diaphragm",
+      leftPointer: false,
     },
     {
       position: {
-        top: 430,
+        top: 410,
         left: 238,
       },
       correctAns: "Alveoli",
+      leftPointer: true,
     },
   ];
 
